@@ -4,10 +4,24 @@ const { Document } = require('../models');
 const { encryptBuffer, decryptBuffer } = require('../utils/crypto');
 const { logAudit } = require('../services/auditService');
 
-const UPLOADS_DIR = path.resolve(__dirname, '../../uploads');
-if (!fs.existsSync(UPLOADS_DIR)) {
-  fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+const os = require('os');
+
+// On Vercel (AWS Lambda), only /tmp is writable. In local dev, use server/uploads.
+const isServerless = !!process.env.VERCEL || !!process.env.AWS_LAMBDA_FUNCTION_NAME;
+const UPLOADS_DIR = isServerless
+  ? path.join(os.tmpdir(), 'shiksha_setu_uploads')
+  : path.resolve(__dirname, '../../uploads');
+
+function ensureUploadsDir() {
+  try {
+    if (!fs.existsSync(UPLOADS_DIR)) {
+      fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+    }
+  } catch (err) {
+    console.warn('[Storage] Uploads directory notice:', err.message);
+  }
 }
+ensureUploadsDir();
 
 async function uploadDocument(req, res, next) {
   try {
@@ -35,6 +49,7 @@ async function uploadDocument(req, res, next) {
     const fileName = `doc_${req.user._id}_${type}_${Date.now()}.enc`;
     const storedPath = path.join(UPLOADS_DIR, fileName);
 
+    ensureUploadsDir();
     fs.writeFileSync(storedPath, encryptedData);
 
     // Set expiry for income certificate to 1 year from upload
