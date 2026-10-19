@@ -32,6 +32,11 @@ async function connectDB(forceMemory = false) {
     return mongoose.connection;
   } catch (err) {
     console.warn(`[Database] Failed to connect to ${config.mongoUri}: ${err.message}`);
+    if (process.env.VERCEL) {
+      throw new Error(
+        `[Vercel Serverless] Cannot connect to MongoDB at "${config.mongoUri}". On Vercel, in-memory MongoDB cannot run. Please set MONGODB_URI in your Vercel Project Settings to a valid MongoDB Atlas connection string (mongodb+srv://...).`
+      );
+    }
     console.warn('[Database] Falling back to MongoMemoryServer for development/demo mode...');
     try {
       const { MongoMemoryServer } = require('mongodb-memory-server');
