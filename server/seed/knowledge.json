@@ -1,0 +1,114 @@
+[
+  {
+    "title": "Who is eligible for the Post-Matric ST Scholarship?",
+    "language": "en",
+    "schemeCode": "MOTA-POST-MATRIC",
+    "tags": ["post-matric", "eligibility", "income", "st"],
+    "text": "Scheduled Tribe students pursuing post-matriculation or post-secondary courses in recognized institutions whose total family income from all sources does not exceed ₹2,50,000 per annum are eligible. Both day scholars and hostellers receive maintenance allowance and reimbursement of non-refundable compulsory fees."
+  },
+  {
+    "title": "मैट्रिकोत्तर एसटी छात्रवृत्ति के लिए कौन पात्र है?",
+    "language": "hi",
+    "schemeCode": "MOTA-POST-MATRIC",
+    "tags": ["post-matric", "eligibility", "income", "st", "hindi"],
+    "text": "मान्यता प्राप्त संस्थानों में मैट्रिक के बाद अध्ययन कर रहे ऐसे सभी अनुसूचित जनजाति (एसटी) छात्र पात्र हैं जिनके परिवार की वार्षिक आय ₹2,50,000 से कम है। इसमें डे स्कॉलर और हॉस्टलर्स दोनों को भरण-पोषण भत्ता तथा गैर-वापसी योग्य अनिवार्य शुल्क की प्रतिपूर्ति दी जाती है।"
+  },
+  {
+    "title": "What documents are required to apply for MoTA scholarships?",
+    "language": "en",
+    "schemeCode": null,
+    "tags": ["documents", "wallet", "st-certificate", "income"],
+    "text": "The core documents required are: 1) Valid Scheduled Tribe Caste Certificate issued by a competent revenue authority; 2) Current Financial Year Income Certificate (below scheme ceiling); 3) Previous year academic mark sheet / passing certificate; 4) Aadhaar card or official photo ID; 5) Active bank passbook linked to Aadhaar for Direct Benefit Transfer (DBT)."
+  },
+  {
+    "title": "छात्रवृत्ति आवेदन के लिए कौन से दस्तावेज आवश्यक हैं?",
+    "language": "hi",
+    "schemeCode": null,
+    "tags": ["documents", "wallet", "st-certificate", "income", "hindi"],
+    "text": "मुख्य आवश्यक दस्तावेज हैं: 1) सक्षम राजस्व अधिकारी द्वारा जारी वैध अनुसूचित जनजाति (एसटी) जाति प्रमाण पत्र; 2) चालू वित्तीय वर्ष का आय प्रमाण पत्र; 3) पिछले वर्ष की शैक्षणिक अंकतालिका; 4) आधार कार्ड या आधिकारिक पहचान पत्र; 5) प्रत्यक्ष लाभ अंतरण (DBT) के लिए आधार से जुड़ा बैंक खाता पासबुक।"
+  },
+  {
+    "title": "Can I hold two scholarships at the same time?",
+    "language": "en",
+    "schemeCode": null,
+    "tags": ["conflicts", "rules", "dual-scholarship"],
+    "text": "No. Under Ministry of Tribal Affairs guidelines, a student cannot hold more than one central government scholarship concurrently for the same course of study. For example, if you are awarded the Top Class Education Scholarship, you cannot simultaneously avail the Post-Matric Scholarship."
+  },
+  {
+    "title": "क्या मैं एक साथ दो छात्रवृत्तियां प्राप्त कर सकता हूं?",
+    "language": "hi",
+    "schemeCode": null,
+    "tags": ["conflicts", "rules", "dual-scholarship", "hindi"],
+    "text": "नहीं। जनजातीय कार्य मंत्रालय के दिशानिर्देशों के अनुसार, कोई भी छात्र एक ही पाठ्यक्रम के लिए एक साथ दो केंद्र प्रायोजित छात्रवृत्तियां प्राप्त नहीं कर सकता। उदाहरण के लिए, यदि आपको शीर्ष श्रेणी (टॉप क्लास) छात्रवृत्ति मिलती है, तो आप उसी समय मैट्रिकोत्तर छात्रवृत्ति नहीं ले सकते।"
+  },
+  {
+    "title": "What happens if there is a name or income mismatch in my verification?",
+    "language": "en",
+    "schemeCode": null,
+    "tags": ["verification", "mismatch", "flagged", "nodal-officer"],
+    "text": "Shiksha Setu never silently rejects students due to spelling variations or data mismatches. If your name spelling in DigiLocker differs slightly from your institute record, your application is FLAGGED for human review by the Nodal Officer, who can verify your supporting documents and approve it."
+  },
+  {
+    "title": "यदि सत्यापन में नाम या आय में अंतर पाया जाता है तो क्या होगा?",
+    "language": "hi",
+    "schemeCode": null,
+    "tags": ["verification", "mismatch", "flagged", "nodal-officer", "hindi"],
+    "text": "शिक्षा सेतु किसी भी छात्र के आवेदन को वर्तनी या डेटा में मामूली अंतर के कारण सीधे निरस्त नहीं करता है। यदि डिजिलॉकर और संस्थान के रिकॉर्ड में नाम में थोड़ा अंतर है, तो आवेदन को नोडल अधिकारी की मानवीय समीक्षा के लिए 'चिह्नित' (FLAGGED) किया जाता है, जो दस्तावेजों की जांच कर स्वीकृति दे सकते हैं।"
+  },
+  {
+    "title": "How does Direct Benefit Transfer (DBT) disbursement work?",
+    "language": "en",
+    "schemeCode": null,
+    "tags": ["dbt", "payment", "bank", "disbursement"],
+    "text": "Once an application receives Ministry sanction, funds are transferred directly into the applicant's Aadhaar-seeded bank account via the Public Financial Management System (PFMS) under DBT. No intermediary cash or cheque payment is made."
+  },
+  {
+    "title": "प्रत्यक्ष लाभ अंतरण (DBT) के माध्यम से भुगतान कैसे होता है?",
+    "language": "hi",
+    "schemeCode": null,
+    "tags": ["dbt", "payment", "bank", "hindi"],
+    "text": "मंत्रालय द्वारा मंजूरी मिलने के बाद, धनराशि सीधे छात्र के आधार-लिंक्ड बैंक खाते में पीएफएमएस (PFMS) प्रणाली द्वारा अंतरित की जाती है। किसी भी मध्यस्थ या नकद माध्यम से भुगतान नहीं किया जाता है।"
+  },
+  {
+    "title": "What is the Top Class Education Scheme for ST Students?",
+    "language": "en",
+    "schemeCode": "MOTA-TOP-CLASS",
+    "tags": ["top-class", "higher-education", "iit", "nit", "iim"],
+    "text": "The Top Class Education Scheme encourages meritorious ST students who gain admission into recognized top institutions (IITs, NITs, IIMs, AIIMS, NLUs). It covers full tuition fees, non-refundable charges, books allowance (₹3,000/year), living expenses (₹3,000/month), and a computer grant (₹45,000 one-time)."
+  },
+  {
+    "title": "एसटी छात्रों के लिए शीर्ष श्रेणी (Top Class) शिक्षा योजना क्या है?",
+    "language": "hi",
+    "schemeCode": "MOTA-TOP-CLASS",
+    "tags": ["top-class", "higher-education", "iit", "hindi"],
+    "text": "शीर्ष श्रेणी शिक्षा योजना उन मेधावी एसटी छात्रों को सहायता देती है जिनका चयन आईआईटी, एनआईटी, आईआईएम, एम्स और राष्ट्रीय विधि संस्थानों में होता है। इसमें पूर्ण शिक्षण शुल्क, भरण-पोषण भत्ता (₹3,000/माह), पुस्तकें (₹3,000/वर्ष) और कंप्यूटर अनुदान (₹45,000 एकमुश्त) शामिल है।"
+  },
+  {
+    "title": "What is the National Overseas Scholarship for ST Students?",
+    "language": "en",
+    "schemeCode": "MOTA-OVERSEAS",
+    "tags": ["overseas", "foreign", "masters", "phd"],
+    "text": "The National Overseas Scholarship provides financial assistance to 20 selected ST candidates each year for pursuing Masters, Ph.D, and Post-Doctoral research in accredited foreign universities. Family income must be under ₹8,00,000 per year."
+  },
+  {
+    "title": "How do I upload and reuse documents in the Digital Wallet?",
+    "language": "en",
+    "schemeCode": null,
+    "tags": ["wallet", "upload", "security", "reuse"],
+    "text": "In the Document Wallet section, select 'Upload document' and choose your certificate (PDF, JPG, or PNG up to 5 MB). Once uploaded, your document is encrypted using AES-256-GCM. When applying for any scheme, your wallet documents automatically populate the application without re-uploading."
+  },
+  {
+    "title": "डिजिटल वॉलेट में दस्तावेज कैसे अपलोड और पुनः उपयोग करें?",
+    "language": "hi",
+    "schemeCode": null,
+    "tags": ["wallet", "upload", "security", "reuse", "hindi"],
+    "text": "दस्तावेज़ वॉलेट अनुभाग में 'दस्तावेज़ अपलोड करें' चुनें और अपनी फ़ाइल (अधिकतम 5 एमबी) अपलोड करें। सभी फ़ाइलें AES-256-GCM द्वारा सुरक्षित रूप से एन्क्रिप्ट की जाती हैं। किसी भी छात्रवृत्ति के लिए आवेदन करते समय, आपके वॉलेट के दस्तावेज़ स्वतः संलग्न हो जाते हैं।"
+  },
+  {
+    "title": "Who is the Nodal Officer and what do they verify?",
+    "language": "en",
+    "schemeCode": null,
+    "tags": ["officer", "nodal", "verification", "queue"],
+    "text": "A Nodal Officer is a designated education authority at the district, state, or ministry level. They review applications flagged by automated mismatch checks, examine uploaded certificates against institutional records, and make final approval or rejection decisions with mandatory written remarks."
+  }
+]

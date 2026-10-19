@@ -1,0 +1,122 @@
+[
+  {
+    "code": "MOTA-PRE-MATRIC",
+    "name": "Pre-Matric Scholarship for ST Students",
+    "nameHi": "अनुसूचित जनजाति के छात्रों के लिए मैट्रिक-पूर्व छात्रवृत्ति",
+    "description": "Financial assistance for ST students studying in classes IX and X to minimize dropout rates and promote transition to secondary education.",
+    "descriptionHi": "कक्षा 9 और 10 में अध्ययनरत अनुसूचित जनजाति के छात्रों के लिए ड्रॉपआउट दर कम करने और माध्यमिक शिक्षा को बढ़ावा देने हेतु वित्तीय सहायता।",
+    "level": "Pre-Matric",
+    "eligibilityRules": {
+      "incomeCeiling": 250000,
+      "allowedCategories": ["ST"],
+      "minCourseYear": 9,
+      "maxCourseYear": 10,
+      "allowedLevels": ["Pre-Matric"],
+      "conflictsWith": []
+    },
+    "requiredDocs": [
+      { "type": "st_certificate", "name": "Scheduled Tribe Certificate", "mandatory": true },
+      { "type": "income_certificate", "name": "Income Certificate", "mandatory": true },
+      { "type": "marksheet", "name": "Previous Class Marksheet", "mandatory": true },
+      { "type": "bank_passbook", "name": "Bank Passbook / Mandate", "mandatory": true }
+    ],
+    "sourcePortal": "NSP",
+    "sample": true
+  },
+  {
+    "code": "MOTA-POST-MATRIC",
+    "name": "Post-Matric Scholarship for ST Students",
+    "nameHi": "अनुसूचित जनजाति के छात्रों के लिए मैट्रिकोत्तर छात्रवृत्ति",
+    "description": "Centrally sponsored scheme providing financial support to ST students pursuing post-secondary courses from recognized colleges and universities.",
+    "descriptionHi": "मान्यता प्राप्त कॉलेजों और विश्वविद्यालयों से उच्चतर माध्यमिक एवं स्नातक स्तर की पढ़ाई कर रहे एसटी छात्रों के लिए वित्तीय सहायता।",
+    "level": "Post-Matric",
+    "eligibilityRules": {
+      "incomeCeiling": 250000,
+      "allowedCategories": ["ST"],
+      "minCourseYear": 1,
+      "maxCourseYear": 5,
+      "allowedLevels": ["Post-Matric"],
+      "conflictsWith": ["MOTA-TOP-CLASS"]
+    },
+    "requiredDocs": [
+      { "type": "st_certificate", "name": "Scheduled Tribe Certificate", "mandatory": true },
+      { "type": "income_certificate", "name": "Income Certificate", "mandatory": true },
+      { "type": "marksheet", "name": "Class 10/12 Marksheet", "mandatory": true },
+      { "type": "aadhaar_id", "name": "Aadhaar Card / ID", "mandatory": true },
+      { "type": "bank_passbook", "name": "Bank Passbook / Account Details", "mandatory": true }
+    ],
+    "sourcePortal": "NSP",
+    "sample": true
+  },
+  {
+    "code": "MOTA-TOP-CLASS",
+    "name": "National Scholarship for Higher Education (Top Class) for ST Students",
+    "nameHi": "एसटी छात्रों के लिए राष्ट्रीय शीर्ष श्रेणी शिक्षा छात्रवृत्ति",
+    "description": "Full funding for ST students securing admission into premier institutions of excellence such as IITs, NITs, IIMs, and National Law Universities.",
+    "descriptionHi": "आईआईटी, एनआईटी, आईआईएम और राष्ट्रीय विधि विश्वविद्यालयों जैसे शीर्ष संस्थानों में प्रवेश पाने वाले एसटी छात्रों के लिए पूर्ण वित्तीय सहयोग।",
+    "level": "Higher Education",
+    "eligibilityRules": {
+      "incomeCeiling": 600000,
+      "allowedCategories": ["ST"],
+      "minCourseYear": 1,
+      "maxCourseYear": 5,
+      "allowedLevels": ["Higher Education"],
+      "conflictsWith": ["MOTA-POST-MATRIC"]
+    },
+    "requiredDocs": [
+      { "type": "st_certificate", "name": "Scheduled Tribe Certificate", "mandatory": true },
+      { "type": "income_certificate", "name": "Income Certificate", "mandatory": true },
+      { "type": "marksheet", "name": "Entrance Exam Marksheet / Rank Card", "mandatory": true },
+      { "type": "bank_passbook", "name": "Bank Account Details", "mandatory": true }
+    ],
+    "sourcePortal": "NSP",
+    "sample": true
+  },
+  {
+    "code": "MOTA-FELLOWSHIP",
+    "name": "National Fellowship for Higher Education of ST Students",
+    "nameHi": "एसटी छात्रों के लिए राष्ट्रीय उच्च शिक्षा अध्येतावृत्ति (फेलोशिप)",
+    "description": "Fellowship support for meritorious ST candidates to pursue higher studies leading to M.Phil and Ph.D degrees across recognized Indian universities.",
+    "descriptionHi": "भारतीय विश्वविद्यालयों में एम.फिल और पीएच.डी की पढ़ाई करने वाले मेधावी एसटी शोधार्थियों के लिए फेलोशिप सहायता।",
+    "level": "Higher Education",
+    "eligibilityRules": {
+      "incomeCeiling": null,
+      "allowedCategories": ["ST"],
+      "minCourseYear": 1,
+      "maxCourseYear": 5,
+      "allowedLevels": ["Higher Education"],
+      "conflictsWith": []
+    },
+    "requiredDocs": [
+      { "type": "st_certificate", "name": "Scheduled Tribe Certificate", "mandatory": true },
+      { "type": "marksheet", "name": "Post-Graduate Degree Marksheet", "mandatory": true },
+      { "type": "bank_passbook", "name": "Bank Passbook", "mandatory": true }
+    ],
+    "sourcePortal": "SFMP",
+    "sample": true
+  },
+  {
+    "code": "MOTA-OVERSEAS",
+    "name": "National Overseas Scholarship for ST Students",
+    "nameHi": "एसटी छात्रों के लिए राष्ट्रीय विदेशी छात्रवृत्ति",
+    "description": "Financial assistance for meritorious ST students admitted to accredited foreign universities for Masters and Ph.D programs abroad.",
+    "descriptionHi": "विदेशों में मान्यता प्राप्त विश्वविद्यालयों से परास्नातक और डॉक्टरेट डिग्री के लिए एसटी विद्यार्थियों को वित्तीय सहायता।",
+    "level": "Overseas",
+    "eligibilityRules": {
+      "incomeCeiling": 800000,
+      "allowedCategories": ["ST"],
+      "minCourseYear": 1,
+      "maxCourseYear": 4,
+      "allowedLevels": ["Overseas"],
+      "conflictsWith": []
+    },
+    "requiredDocs": [
+      { "type": "st_certificate", "name": "Scheduled Tribe Certificate", "mandatory": true },
+      { "type": "income_certificate", "name": "Income Certificate", "mandatory": true },
+      { "type": "marksheet", "name": "Graduation Marksheet", "mandatory": true },
+      { "type": "bank_passbook", "name": "Bank Passbook / ForexFees Mandate", "mandatory": true }
+    ],
+    "sourcePortal": "NOS",
+    "sample": true
+  }
+]

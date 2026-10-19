@@ -1,0 +1,33 @@
+{
+  "name": "shiksha-setu",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Unified MoTA Scholarship PWA for Scheduled Tribe Students",
+  "workspaces": [
+    "server",
+    "client"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run start --workspace=server\" \"npm run dev --workspace=client\"",
+    "dev:server": "npm run dev --workspace=server",
+    "dev:client": "npm run dev --workspace=client",
+    "seed": "npm run seed --workspace=server",
+    "test": "npm run test:server && npm run test:client",
+    "test:server": "npm test --workspace=server",
+    "test:client": "npm test --workspace=client",
+    "build": "npm run build --workspace=client",
+    "lint": "npm run lint --workspace=server"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.5"
+  },
+  "keywords": [
+    "scholarship",
+    "mota",
+    "tribal-affairs",
+    "pwa",
+    "education"
+  ],
+  "author": "bytecodex",
+  "license": "MIT"
+}

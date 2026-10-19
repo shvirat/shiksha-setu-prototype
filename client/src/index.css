@@ -1,0 +1,69 @@
+@import '@fontsource/ibm-plex-sans/400.css';
+@import '@fontsource/ibm-plex-sans/500.css';
+@import '@fontsource/ibm-plex-sans/600.css';
+@import '@fontsource/ibm-plex-mono/400.css';
+@import '@fontsource/ibm-plex-mono/500.css';
+@import '@fontsource/source-serif-4/600.css';
+@import '@fontsource/noto-sans-devanagari/400.css';
+@import '@fontsource/noto-sans-devanagari/500.css';
+@import '@fontsource/noto-sans-devanagari/600.css';
+@import '@fontsource/noto-serif-devanagari/600.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-paper: #F6F4EF;
+  --color-surface: #FFFFFF;
+  --color-ink: #14202E;
+  --color-ink-muted: #4B5666;
+  --color-ink-subtle: #647084;
+  --color-line: #DAD5CA;
+  --color-line-strong: #B9B2A3;
+  --color-navy-900: #0E2542;
+  --color-navy-700: #17375E;
+  --color-navy-600: #1F487C;
+  --color-navy-100: #D6E2F0;
+  --color-navy-50: #EAF0F7;
+  --color-saffron-700: #9A4308;
+  --color-saffron-400: #F59240;
+  --color-saffron-50: #FDF0E1;
+  --color-success-700: #1B5E3C;
+  --color-success-50: #E6F2EB;
+  --color-warning-700: #7A5200;
+  --color-warning-50: #FBF0D5;
+  --color-danger-700: #9B2218;
+  --color-danger-50: #FBE8E5;
+}
+
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: 'IBM Plex Sans', 'Noto Sans Devanagari', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Devanagari script typography adjustments */
+[lang="hi"], :lang(hi) {
+  line-height: 1.65;
+}
+
+/* Focus indicator per B6 spec */
+*:focus-visible {
+  outline: 2px solid #1F487C;
+  outline-offset: 2px;
+}
+
+/* Hairline scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #F6F4EF;
+}
+::-webkit-scrollbar-thumb {
+  background: #DAD5CA;
+  border-radius: 4px;
+}
