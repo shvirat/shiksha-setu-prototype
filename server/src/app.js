@@ -9,6 +9,9 @@ const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
 
+// Trust reverse proxy (Vercel, AWS Lambda, Cloudflare) for accurate IP resolution
+app.set('trust proxy', 1);
+
 // Security headers
 app.use(helmet());
 
@@ -42,6 +45,7 @@ const limiter = rateLimit({
   max: 1000, // limit each IP to 1000 requests per windowMs
   standardHeaders: true,
   legacyHeaders: false,
+  validate: { xForwardedForHeader: false },
   message: {
     success: false,
     error: {
