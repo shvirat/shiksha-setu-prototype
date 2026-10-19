@@ -3,7 +3,7 @@ function errorHandler(err, req, res, next) {
   const message = err.message || 'Internal Server Error';
   const code = err.code || 'SERVER_ERROR';
 
-  if (process.env.NODE_ENV !== 'test' && statusCode >= 500) {
+  if (statusCode >= 500) {
     console.error('[Error]', err);
   }
 

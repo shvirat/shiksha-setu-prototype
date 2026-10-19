@@ -23,7 +23,7 @@ class DigiLockerAdapter {
     const profile = await StudentProfile.findOne({ userId });
     const targetName = name || profile?.fullName || '';
 
-    // Deliberate test scenario: Shanti Oraon has a spelling variation in DigiLocker record
+    // Demo scenario: Shanti Oraon has a spelling variation in DigiLocker record
     if (targetName.toLowerCase().includes('shanti')) {
       return {
         source: this.source,

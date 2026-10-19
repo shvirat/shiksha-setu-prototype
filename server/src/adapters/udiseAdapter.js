@@ -25,7 +25,7 @@ class UdiseAdapter {
     const targetName = studentName || profile?.fullName || '';
     const targetYear = year || profile?.year || 1;
 
-    // Check deliberate test scenario for Mangal Murmu: academic year discrepancy
+    // Demo scenario for Mangal Murmu: academic year discrepancy
     if (targetName.toLowerCase().includes('mangal')) {
       return {
         source: this.source,

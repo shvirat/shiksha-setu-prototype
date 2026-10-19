@@ -24,7 +24,7 @@ class EDistrictAdapter {
     const targetIncome = declaredIncome !== undefined ? declaredIncome : profile?.familyIncome || 150000;
     const targetName = profile?.fullName || '';
 
-    // Deliberate test scenario for Sukra Kole: income mismatch
+    // Demo scenario for Sukra Kole: income mismatch
     if (targetName.toLowerCase().includes('sukra')) {
       return {
         source: this.source,
