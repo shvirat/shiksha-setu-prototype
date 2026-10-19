@@ -27,7 +27,7 @@ export function Field({
         )}
         {isPrefilled && (
           <span className="text-caption text-ink-muted">
-            Filled from your profile
+            Filled from profile
             {onEditPrefilled && (
               <button
                 type="button"

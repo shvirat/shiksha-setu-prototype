@@ -8,9 +8,32 @@
 
 ## Quick Navigation & Documentation Links
 
+- 🖼️ **[UI Screenshots Gallery](./docs/screenshots/):** High-resolution visual captures of the Student PWA (English & Hindi), Officer Queue, JAGO AI, and Coverage Gap Finder.
 - 📘 **[Technical Design Document](./docs/TECHNICAL_DESIGN.md):** Full system architecture, Mermaid diagrams, DPDP consent model, ER data schemas, security guardrails, and scope & limitations.
 - 🔌 **[REST API Specification](./docs/API.md):** Comprehensive reference for all 20+ REST endpoints, request/response JSON schemas, and error codes.
 - ⏱️ **[5-Minute Demo Script](./docs/DEMO.md):** Step-by-step evaluator walkthrough script for live presentation and testing.
+
+---
+
+## UI Preview & Screenshots
+
+| Student Dashboard (English) | Student Dashboard (हिन्दी) |
+|---|---|
+| ![Student Dashboard English](./docs/screenshots/Student-home-english.jpg) | ![Student Dashboard Hindi](./docs/screenshots/Student-home-hindi.jpg) |
+
+| Smart Verification (Non-Destructive Flagging) | Document Wallet (AES-256-GCM Encrypted) |
+|---|---|
+| ![Application Flagged Review](./docs/screenshots/Student-application-flagged.jpg) | ![Document Wallet](./docs/screenshots/Student-documents-page.jpg) |
+
+| Nodal Officer Review & Decision Drawer | Coverage Gap Finder (Reconciliation) |
+|---|---|
+| ![Officer Review Drawer](./docs/screenshots/Officer-application-review.jpg) | ![Coverage Gap Finder](./docs/screenshots/Officer-coverage-gap-page.jpg) |
+
+| JAGO Multilingual Voice Assistant | Officer Analytics Overview |
+|---|---|
+| ![JAGO AI Assistant](./docs/screenshots/Student-jago-ai.jpg) | ![Officer Analytics](./docs/screenshots/Officer-analytics-page.jpg) |
+
+> 📁 *All 13 high-resolution screen captures are available in the **[`docs/screenshots/`](./docs/screenshots/)** directory.*
 
 ---
 

@@ -40,7 +40,7 @@ const resources = {
         trackApplication: 'Track progress',
         applyNow: 'Apply now',
         noApplications: 'No applications in progress.',
-        filledFromProfile: 'Filled from your profile'
+        filledFromProfile: 'Filled from profile'
       },
       wallet: {
         heading: 'Digital Document Wallet',
