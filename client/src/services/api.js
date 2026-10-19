@@ -1,6 +1,6 @@
 import { setCachedData, getCachedData, enqueueOfflineAction } from './db';
 
-const API_BASE = '/api';
+const API_BASE = import.meta.env.VITE_API_URL || '/api';
 
 export function getAuthToken() {
   return localStorage.getItem('shiksha_token');
