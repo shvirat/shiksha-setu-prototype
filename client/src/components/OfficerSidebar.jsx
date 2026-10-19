@@ -12,8 +12,7 @@ export function OfficerSidebar() {
   const navItems = [
     { to: '/officer/queue', label: t('nav.queue'), icon: Tray },
     { to: '/officer/coverage-gaps', label: t('nav.coverageGaps'), icon: Compass },
-    { to: '/officer/analytics', label: t('nav.analytics'), icon: ChartBar },
-    { to: '/styleguide', label: t('nav.styleguide'), icon: BookOpen }
+    { to: '/officer/analytics', label: t('nav.analytics'), icon: ChartBar }
   ];
 
   return (

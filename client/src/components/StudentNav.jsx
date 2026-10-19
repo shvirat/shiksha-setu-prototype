@@ -34,16 +34,6 @@ export function StudentNav({ onOpenJagoMobile }) {
               <span>{link.label}</span>
             </NavLink>
           ))}
-          <NavLink
-            to="/styleguide"
-            className={({ isActive }) =>
-              `py-3 text-caption text-ink-subtle hover:text-ink border-b-2 ml-auto ${
-                isActive ? 'border-navy-700 text-ink' : 'border-transparent'
-              }`
-            }
-          >
-            {t('nav.styleguide')}
-          </NavLink>
         </div>
       </nav>
 

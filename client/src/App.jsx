@@ -19,9 +19,7 @@ import { OfficerQueue } from './pages/OfficerQueue';
 import { CoverageGapFinder } from './pages/CoverageGapFinder';
 import { OfficerAnalytics } from './pages/OfficerAnalytics';
 
-// Common
 import { Login } from './pages/Login';
-import { Styleguide } from './pages/Styleguide';
 
 function ProtectedRoute({ children, allowedRole }) {
   const { user, loading } = useAuth();
@@ -84,7 +82,6 @@ export function App() {
                     </ProtectedRoute>
                   }
                 />
-                <Route path="/styleguide" element={<Styleguide />} />
                 <Route path="*" element={<Navigate to="/officer/queue" replace />} />
               </Routes>
             </main>
@@ -157,7 +154,6 @@ export function App() {
                   </ProtectedRoute>
                 }
               />
-              <Route path="/styleguide" element={<Styleguide />} />
               <Route path="*" element={<Navigate to={user ? '/' : '/login'} replace />} />
             </Routes>
           </main>

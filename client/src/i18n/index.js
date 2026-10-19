@@ -18,8 +18,7 @@ const resources = {
         queue: 'Verification Queue',
         coverageGaps: 'Coverage Gap Finder',
         analytics: 'Analytics',
-        logout: 'Log out',
-        styleguide: 'Styleguide'
+        logout: 'Log out'
       },
       auth: {
         loginTitle: 'Sign in to your account',
@@ -136,7 +135,6 @@ const resources = {
         coverageGaps: 'कवरेज गैप खोजक',
         analytics: 'विश्लेषिकी',
         logout: 'लॉग आउट',
-        styleguide: 'स्टाइलगाइड'
       },
       auth: {
         loginTitle: 'अपने खाते में प्रवेश करें',
