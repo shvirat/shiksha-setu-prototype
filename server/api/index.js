@@ -1,5 +1,9 @@
 const app = require('../src/app');
 const { connectDB } = require('../src/config/db');
+const { User } = require('../src/models');
+const { seedDatabase } = require('../seed/seed');
+
+let isSeeded = false;
 
 module.exports = async (req, res) => {
   // Return immediately on OPTIONS preflight without waiting for DB
@@ -9,6 +13,16 @@ module.exports = async (req, res) => {
 
   try {
     await connectDB();
+
+    // Auto-seed remote database on Vercel if empty
+    if (!isSeeded) {
+      const userCount = await User.countDocuments();
+      if (userCount === 0) {
+        console.log('[Vercel Serverless] Database is empty. Auto-seeding demo schemes, officers, and students...');
+        await seedDatabase();
+      }
+      isSeeded = true;
+    }
   } catch (err) {
     console.error('[Vercel Serverless] DB connection error:', err.message);
     return res.status(500).json({
