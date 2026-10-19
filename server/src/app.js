@@ -15,29 +15,16 @@ app.set('trust proxy', 1);
 // Security headers
 app.use(helmet());
 
-// CORS allow-list
-const allowedOrigins = [
-  config.clientUrl,
-  'http://localhost:3000',
-  'http://localhost:5173',
-  'http://127.0.0.1:3000',
-  'http://127.0.0.1:5173'
-];
-
+// CORS configuration
 app.use(
   cors({
-    origin: (origin, callback) => {
-      // allow requests with no origin (like mobile apps, curl, or tests)
-      if (!origin || allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
-      return callback(new Error(`Origin ${origin} not allowed by CORS`));
-    },
+    origin: true,
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept']
   })
 );
+app.options('*', cors());
 
 // Rate limiter
 const limiter = rateLimit({

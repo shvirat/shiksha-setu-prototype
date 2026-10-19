@@ -1,8 +1,12 @@
 const app = require('../src/app');
 const { connectDB } = require('../src/config/db');
 
-// Serverless handler for Vercel
 module.exports = async (req, res) => {
+  // Return immediately on OPTIONS preflight without waiting for DB
+  if (req.method === 'OPTIONS') {
+    return app(req, res);
+  }
+
   try {
     await connectDB();
   } catch (err) {
