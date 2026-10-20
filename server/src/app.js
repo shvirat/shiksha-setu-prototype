@@ -12,19 +12,25 @@ const app = express();
 // Trust reverse proxy (Vercel, AWS Lambda, Cloudflare) for accurate IP resolution
 app.set('trust proxy', 1);
 
-// Security headers
-app.use(helmet());
-
-// CORS configuration
+// CORS configuration (mounted before Helmet so preflights and cross-origin responses are handled cleanly)
 app.use(
   cors({
     origin: true,
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept']
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
+    optionsSuccessStatus: 200
   })
 );
 app.options('*', cors());
+
+// Security headers (allow cross-origin resources for client SPA/PWA requests)
+app.use(
+  helmet({
+    crossOriginResourcePolicy: { policy: 'cross-origin' },
+    crossOriginOpenerPolicy: false
+  })
+);
 
 // Rate limiter
 const limiter = rateLimit({
@@ -50,8 +56,9 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 // Request logging
 app.use(morgan('dev'));
 
-// Mount API routes
+// Mount API routes (support both /api prefixed requests and root-level Vercel serverless rewrites)
 app.use('/api', routes);
+app.use('/', routes);
 
 // 404 handler
 app.use((req, res) => {

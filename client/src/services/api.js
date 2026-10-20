@@ -40,10 +40,17 @@ export async function apiRequest(endpoint, options = {}) {
 
   try {
     const res = await fetch(url, { ...options, headers });
-    const data = await res.json();
+    let data;
+    const contentType = res.headers.get('content-type') || '';
+    if (contentType.includes('application/json')) {
+      data = await res.json();
+    } else {
+      const text = await res.text();
+      data = { error: { message: text || `HTTP Error ${res.status}` } };
+    }
 
     if (!res.ok) {
-      const error = new Error(data?.error?.message || 'API request failed');
+      const error = new Error(data?.error?.message || `API request failed with status ${res.status}`);
       error.status = res.status;
       error.code = data?.error?.code || 'API_ERROR';
       error.details = data?.error?.details;
@@ -69,6 +76,17 @@ export async function apiRequest(endpoint, options = {}) {
         await enqueueOfflineAction({ endpoint, options });
       }
     }
+
+    // Enhance browser network errors (CORS, backend offline, connection refused)
+    if (err.name === 'TypeError' && (err.message.includes('fetch') || err.message.includes('NetworkError'))) {
+      const enhancedError = new Error(
+        `Cannot reach the backend server at "${url}". Please ensure the backend is running and CORS/network settings allow access.`
+      );
+      enhancedError.code = 'NETWORK_ERROR';
+      enhancedError.originalError = err;
+      throw enhancedError;
+    }
+
     throw err;
   }
 }

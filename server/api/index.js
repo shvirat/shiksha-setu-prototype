@@ -6,9 +6,22 @@ const { seedDatabase } = require('../seed/seed');
 let isSeeded = false;
 
 module.exports = async (req, res) => {
+  // Set CORS headers immediately so preflight and any server error responses
+  // (such as DB connection failures) are never blocked by browser CORS checks
+  const origin = req.headers.origin;
+  if (origin) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+  } else {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+  }
+  res.setHeader('Vary', 'Origin');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept');
+
   // Return immediately on OPTIONS preflight without waiting for DB
   if (req.method === 'OPTIONS') {
-    return app(req, res);
+    return res.status(200).end();
   }
 
   try {
