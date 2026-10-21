@@ -85,6 +85,11 @@ async function seedDatabase() {
   console.log(`[Seed] Seeded ${schemesData.length} scholarship schemes.`);
 
   // 2. Seed Knowledge Documents
+  // Drop any legacy text indexes that might have been created previously on Atlas with language override
+  try {
+    await KnowledgeDoc.collection.dropIndexes();
+  } catch (_) {}
+
   await KnowledgeDoc.insertMany(knowledgeData);
   console.log(`[Seed] Seeded ${knowledgeData.length} bilingual knowledge documents.`);
 
