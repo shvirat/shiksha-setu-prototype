@@ -50,7 +50,11 @@ export async function apiRequest(endpoint, options = {}) {
     }
 
     if (!res.ok) {
-      const error = new Error(data?.error?.message || `API request failed with status ${res.status}`);
+      let msg = data?.error?.message || `API request failed with status ${res.status}`;
+      if (data?.error?.details && data.error.details !== data.error.message) {
+        msg = `${msg} (${data.error.details})`;
+      }
+      const error = new Error(msg);
       error.status = res.status;
       error.code = data?.error?.code || 'API_ERROR';
       error.details = data?.error?.details;

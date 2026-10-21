@@ -1,9 +1,36 @@
 const app = require('../src/app');
 const { connectDB } = require('../src/config/db');
-const { User } = require('../src/models');
+const { User, Scheme } = require('../src/models');
 const { seedDatabase } = require('../seed/seed');
 
 let isSeeded = false;
+let seedPromise = null;
+
+async function ensureSeeded() {
+  if (isSeeded) return;
+  if (seedPromise) return seedPromise;
+
+  seedPromise = (async () => {
+    try {
+      const [userCount, schemeCount] = await Promise.all([
+        User.countDocuments(),
+        Scheme.countDocuments()
+      ]);
+      if (userCount === 0 || schemeCount === 0) {
+        console.log('[Vercel Serverless] Empty or unseeded database detected. Auto-seeding demo schemes, officers, and students...');
+        await seedDatabase();
+        console.log('[Vercel Serverless] Database auto-seeded successfully.');
+      }
+      isSeeded = true;
+    } catch (seedErr) {
+      console.error('[Vercel Serverless] Auto-seeding error:', seedErr);
+    } finally {
+      seedPromise = null;
+    }
+  })();
+
+  return seedPromise;
+}
 
 module.exports = async (req, res) => {
   // Set CORS headers immediately so preflight and any server error responses
@@ -26,23 +53,14 @@ module.exports = async (req, res) => {
 
   try {
     await connectDB();
-
-    // Auto-seed remote database on Vercel if empty
-    if (!isSeeded) {
-      const userCount = await User.countDocuments();
-      if (userCount === 0) {
-        console.log('[Vercel Serverless] Database is empty. Auto-seeding demo schemes, officers, and students...');
-        await seedDatabase();
-      }
-      isSeeded = true;
-    }
+    await ensureSeeded();
   } catch (err) {
     console.error('[Vercel Serverless] DB connection error:', err.message);
     return res.status(500).json({
       success: false,
       error: {
         code: 'DATABASE_CONNECTION_ERROR',
-        message: 'Could not connect to database on Vercel. Ensure MONGODB_URI is set to a valid remote MongoDB Atlas URI in your Vercel Project Settings.',
+        message: err.message || 'Could not connect to database on Vercel.',
         details: err.message
       }
     });

@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const fs = require('fs');
 const path = require('path');
@@ -16,8 +17,20 @@ const {
   KnowledgeDoc
 } = require('../src/models');
 
-const schemesData = JSON.parse(fs.readFileSync(path.join(__dirname, 'schemes.json'), 'utf-8'));
-const knowledgeData = JSON.parse(fs.readFileSync(path.join(__dirname, 'knowledge.json'), 'utf-8'));
+let schemesData;
+let knowledgeData;
+
+try {
+  schemesData = require('./schemes.json');
+} catch (_) {
+  schemesData = JSON.parse(fs.readFileSync(path.join(__dirname, 'schemes.json'), 'utf-8'));
+}
+
+try {
+  knowledgeData = require('./knowledge.json');
+} catch (_) {
+  knowledgeData = JSON.parse(fs.readFileSync(path.join(__dirname, 'knowledge.json'), 'utf-8'));
+}
 
 const tribalStudentTemplates = [
   { name: 'Birsa Munda', email: 'birsa.munda@example.in', mobile: '9876543210', gender: 'male', state: 'Jharkhand', district: 'Ranchi', income: 140000, inst: 'Birsa Munda College, Khunti', course: 'B.Sc Botany', year: 2, level: 'Post-Matric', scenario: 'clean' },
@@ -107,24 +120,30 @@ async function seedDatabase() {
   const seededProfiles = [];
   const seededDocuments = [];
   const seededApplications = [];
+  const seededConsents = [];
+  const seededVerifications = [];
+  const seededNotifications = [];
 
   for (let i = 0; i < tribalStudentTemplates.length; i++) {
     const s = tribalStudentTemplates[i];
-    const user = await User.create({
+    const userId = new mongoose.Types.ObjectId();
+
+    const user = {
+      _id: userId,
       name: s.name,
       email: s.email,
       mobile: s.mobile,
       passwordHash: studentPasswordHash,
       role: 'student',
       language: i % 2 === 0 ? 'en' : 'hi'
-    });
+    };
     seededUsers.push(user);
 
     const udiseId = `UDISE-2026-${(1000 + i).toString()}`;
     const apaarId = `APAAR-${(90000000 + i).toString()}`;
 
-    const profile = await StudentProfile.create({
-      userId: user._id,
+    const profile = {
+      userId,
       fullName: s.name,
       dob: `200${(i % 5) + 2}-0${(i % 8) + 1}-15`,
       gender: s.gender,
@@ -138,14 +157,14 @@ async function seedDatabase() {
       udiseId,
       apaarId,
       maskedBankRef: `XXXX-XXXX-${(2000 + i).toString()}`
-    });
+    };
     seededProfiles.push(profile);
 
     // Seed consent records for all integrations
     const consentSources = ['MOCK_DIGILOCKER', 'MOCK_UDISE', 'MOCK_APAAR', 'MOCK_OTR', 'MOCK_EDISTRICT', 'MOCK_BANK_DBT'];
     for (const src of consentSources) {
-      await ConsentRecord.create({
-        userId: user._id,
+      seededConsents.push({
+        userId,
         source: src,
         purpose: 'Identity, caste, academic and income auto-verification for MoTA scholarships',
         grantedAt: new Date(Date.now() - 3600000 * 24 * 7)
@@ -156,17 +175,19 @@ async function seedDatabase() {
     const docTypes = ['st_certificate', 'income_certificate', 'marksheet', 'bank_passbook'];
     const userDocs = [];
     for (const dType of docTypes) {
-      const doc = await Document.create({
-        userId: user._id,
+      const docId = new mongoose.Types.ObjectId();
+      const doc = {
+        _id: docId,
+        userId,
         type: dType,
         originalName: `${dType}_${s.name.toLowerCase().replace(/\s+/g, '_')}.pdf`,
-        storedPath: `uploads/mock_${dType}_${user._id}.pdf`,
+        storedPath: `uploads/mock_${dType}_${userId}.pdf`,
         encrypted: true,
         status: 'VERIFIED',
         source: 'MOCK_DIGILOCKER',
         uploadedAt: new Date(Date.now() - 3600000 * 24 * 10),
         expiresAt: dType === 'income_certificate' ? new Date(Date.now() + 3600000 * 24 * 180) : null
-      });
+      };
       userDocs.push(doc);
       seededDocuments.push(doc);
     }
@@ -180,7 +201,7 @@ async function seedDatabase() {
       let appStatus = 'VERIFIED';
       const mismatches = [];
       const timeline = [
-        { status: 'SUBMITTED', at: new Date(Date.now() - 3600000 * 48), by: user.name, note: 'Application submitted online' },
+        { status: 'SUBMITTED', at: new Date(Date.now() - 3600000 * 48), by: s.name, note: 'Application submitted online' },
         { status: 'AUTO_VERIFYING', at: new Date(Date.now() - 3600000 * 47), by: 'SYSTEM', note: 'Running automated adapter checks' }
       ];
 
@@ -244,9 +265,11 @@ async function seedDatabase() {
         timeline.push({ status: 'VERIFIED', at: new Date(Date.now() - 3600000 * 30), by: 'SYSTEM', note: 'All auto-verification adapters reported PASS.' });
       }
 
-      const application = await Application.create({
+      const appId = new mongoose.Types.ObjectId();
+      const application = {
+        _id: appId,
         applicationNumber: `MOTA-2026-${(10000 + i).toString()}`,
-        userId: user._id,
+        userId,
         schemeCode,
         status: appStatus,
         prefilled: {
@@ -266,15 +289,15 @@ async function seedDatabase() {
         })),
         mismatches,
         timeline
-      });
+      };
       seededApplications.push(application);
 
       // Create VerificationResults for the application
       const sources = ['MOCK_DIGILOCKER', 'MOCK_UDISE', 'MOCK_APAAR', 'MOCK_OTR', 'MOCK_EDISTRICT', 'MOCK_BANK_DBT'];
       for (const src of sources) {
         const isMismatchSource = mismatches.some((m) => m.source === src);
-        await VerificationResult.create({
-          applicationId: application._id,
+        seededVerifications.push({
+          applicationId: appId,
           source: src,
           status: isMismatchSource ? 'MISMATCH' : 'PASS',
           details: {
@@ -286,8 +309,8 @@ async function seedDatabase() {
       }
 
       // Add a notification for each student
-      await Notification.create({
-        userId: user._id,
+      seededNotifications.push({
+        userId,
         type: appStatus === 'FLAGGED' ? 'DEFICIENCY' : 'STATUS_CHANGE',
         title: appStatus === 'FLAGGED' ? 'Application Under Nodal Review' : 'Application Status Update',
         message:
@@ -298,12 +321,24 @@ async function seedDatabase() {
           appStatus === 'FLAGGED'
             ? `आपका आवेदन ${application.applicationNumber} नोडल अधिकारी की त्वरित मानवीय समीक्षा हेतु भेजा गया है।`
             : `आपके आवेदन ${application.applicationNumber} की स्थिति अब ${appStatus} है।`,
-        metadata: { applicationId: application._id, status: appStatus }
+        metadata: { applicationId: appId, status: appStatus }
       });
     }
   }
-  console.log(`[Seed] Seeded ${seededUsers.length} student users and profiles.`);
-  console.log(`[Seed] Seeded ${seededApplications.length} scholarship applications with timelines and verification results.`);
+
+  // Bulk insert all student entities in parallel batches
+  await Promise.all([
+    User.insertMany(seededUsers),
+    StudentProfile.insertMany(seededProfiles),
+    ConsentRecord.insertMany(seededConsents),
+    Document.insertMany(seededDocuments),
+    Application.insertMany(seededApplications),
+    VerificationResult.insertMany(seededVerifications),
+    Notification.insertMany(seededNotifications)
+  ]);
+
+  console.log(`[Seed] Seeded ${seededUsers.length} student users and profiles in bulk.`);
+  console.log(`[Seed] Seeded ${seededApplications.length} scholarship applications with timelines and verification results in bulk.`);
 
   // 5. Seed 200 EnrollmentRecords for Coverage Gap Finder
   const statesDistricts = [

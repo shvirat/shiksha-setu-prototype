@@ -34,7 +34,10 @@ const knowledgeDocSchema = new mongoose.Schema(
   }
 );
 
-knowledgeDocSchema.index({ title: 'text', text: 'text', tags: 'text' });
+knowledgeDocSchema.index(
+  { title: 'text', text: 'text', tags: 'text' },
+  { language_override: 'none' }
+);
 
 const KnowledgeDoc = mongoose.model('KnowledgeDoc', knowledgeDocSchema);
 module.exports = KnowledgeDoc;
