@@ -72,6 +72,27 @@ Authenticates with email and password, returning a JWT token.
 Retrieves current authenticated session user and profile.
 - **Access:** Authenticated (`student` or `officer`)
 
+### `PUT /auth/profile`
+Updates the authenticated student's profile details (institution, course, year, state, district, income, bank reference, etc.).
+- **Access:** Student only
+- **Request Body:** Partial or complete `StudentProfile` fields (e.g. `{ "institution": "Birsa Institute of Tech", "year": 3, "familyIncome": 160000 }`)
+- **Response `200 OK`:**
+```json
+{
+  "success": true,
+  "data": {
+    "profile": {
+      "_id": "673f8a...",
+      "userId": "673f8a...",
+      "fullName": "Birsa Munda",
+      "institution": "Birsa Institute of Tech",
+      "year": 3,
+      "familyIncome": 160000
+    }
+  }
+}
+```
+
 ---
 
 ## 2. Digital Document Wallet Endpoints
@@ -213,3 +234,38 @@ Answers citizen queries regarding eligibility, application tracking, and documen
 }
 ```
 *(Contains prompt injection defenses; queries restricted strictly to authenticated student's data).*
+
+---
+
+## 7. Notification Endpoints
+
+### `GET /notifications`
+Retrieves in-app status updates, deficiency alerts, and sanction notices for the authenticated user, along with the unread count.
+- **Access:** Authenticated
+- **Response `200 OK`:**
+```json
+{
+  "success": true,
+  "data": {
+    "notifications": [
+      {
+        "_id": "673f...",
+        "type": "STATUS_CHANGE",
+        "title": "Application Under Review",
+        "message": "Your application MOTA-2026-10001 has been flagged for empathetic manual review.",
+        "readAt": null,
+        "createdAt": "2026-10-21T06:00:00.000Z"
+      }
+    ],
+    "unreadCount": 1
+  }
+}
+```
+
+### `PATCH /notifications/:id/read`
+Marks a single notification as read.
+- **Access:** Authenticated
+
+### `PATCH /notifications/read-all`
+Marks all notifications as read for the authenticated user.
+- **Access:** Authenticated

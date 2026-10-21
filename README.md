@@ -21,6 +21,10 @@
 |---|---|
 | ![Student Dashboard English](./docs/screenshots/Student-home-english.jpg) | ![Student Dashboard Hindi](./docs/screenshots/Student-home-hindi.jpg) |
 
+| Student Registration & Onboarding | Student Profile (Simulated Registries) |
+|---|---|
+| ![Student Registration](./docs/screenshots/Shiksha-setu-register-page.jpg) | ![Student Profile](./docs/screenshots/Student-profile-page.jpg) |
+
 | Smart Verification (Non-Destructive Flagging) | Document Wallet (AES-256-GCM Encrypted) |
 |---|---|
 | ![Application Flagged Review](./docs/screenshots/Student-application-flagged.jpg) | ![Document Wallet](./docs/screenshots/Student-documents-page.jpg) |
@@ -33,7 +37,7 @@
 |---|---|
 | ![JAGO AI Assistant](./docs/screenshots/Student-jago-ai.jpg) | ![Officer Analytics](./docs/screenshots/Officer-analytics-page.jpg) |
 
-> 📁 *All 13 high-resolution screen captures are available in the **[`docs/screenshots/`](./docs/screenshots/)** directory.*
+> 📁 *All 15 high-resolution screen captures are available in the **[`docs/screenshots/`](./docs/screenshots/)** directory.*
 
 ---
 
@@ -159,8 +163,8 @@ shiksha-setu/
 │   │   ├── components/         # TopBar, StudentNav, OfficerSidebar, OfflineBanner
 │   │   ├── context/            # AuthContext (stateless JWT session state)
 │   │   ├── i18n/               # Complete English & Hindi dictionary mappings
-│   │   ├── pages/              # StudentHome, SchemesDirectory, SchemeApply, Wallet,
-│   │   │                       # OfficerQueue, CoverageGapFinder, OfficerAnalytics, Login
+│   │   ├── pages/              # StudentHome, SchemesDirectory, SchemeApply, Wallet, Profile,
+│   │   │                       # OfficerQueue, CoverageGapFinder, OfficerAnalytics, Login, Register
 │   │   ├── services/           # api.js (Axios/fetch client)
 │   │   ├── ui/                 # Accessible UI components (Badge, Button, Stepper, JagoPanel)
 │   │   ├── App.jsx             # Role-based route definitions and layouts

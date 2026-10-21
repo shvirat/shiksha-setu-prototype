@@ -91,7 +91,8 @@ flowchart TD
     AttachDocs --> Submit["Student Confirms & Submits"]
     
     Submit --> ConsentCheck{"Citizen Consent Active?"}
-    ConsentCheck -- "No" --> PromptConsent["Student Grants Explicit DPDP Consent"] --> AdapterChecks
+    ConsentCheck -- "No" --> PromptConsent["Student Grants Explicit DPDP Consent"]
+    PromptConsent --> AdapterChecks
     ConsentCheck -- "Yes" --> AdapterChecks["Run Multi-Point Smart Auto-Verification"]
     
     subgraph Verification ["Smart Verification Layer"]
@@ -101,7 +102,10 @@ flowchart TD
         AdapterChecks --> V4["NPCI / Bank (Aadhaar Seeding)"]
     end
 
-    V1 & V2 & V3 & V4 --> EvaluateResults{"Any Data Discrepancies?"}
+    V1 --> EvaluateResults{"Any Data Discrepancies?"}
+    V2 --> EvaluateResults
+    V3 --> EvaluateResults
+    V4 --> EvaluateResults
     
     EvaluateResults -- "No (All Pass)" --> StatusVerified["Status: VERIFIED"]
     StatusVerified --> SanctionSim["Auto-approved for Sanction"]
@@ -147,12 +151,12 @@ erDiagram
 
     User {
         ObjectId _id PK
-        string role "student | officer"
+        string role "student, officer"
         string name
         string email UK
         string mobile
         string passwordHash
-        string language "en | hi"
+        string language "en, hi"
         Date createdAt
     }
 
@@ -177,12 +181,12 @@ erDiagram
     Document {
         ObjectId _id PK
         ObjectId userId FK
-        string type "st_certificate | income_cert | marksheet"
+        string type "st_certificate, income_cert, marksheet"
         string originalName
         string storedPath
         boolean encrypted
-        string status "PENDING | VERIFIED | FLAGGED | EXPIRED"
-        string source "STUDENT_UPLOAD | MOCK_DIGILOCKER"
+        string status "PENDING, VERIFIED, FLAGGED, EXPIRED"
+        string source "STUDENT_UPLOAD, MOCK_DIGILOCKER"
         Date uploadedAt
         Date expiresAt
     }
@@ -192,10 +196,10 @@ erDiagram
         string code UK
         string name
         string nameHi
-        string level "Pre-Matric | Post-Matric | Higher Education | Overseas"
+        string level "Pre-Matric, Post-Matric, Higher Ed, Overseas"
         object eligibilityRules
         array requiredDocs
-        string sourcePortal "NSP | SFMP | NOS"
+        string sourcePortal "NSP, SFMP, NOS"
         boolean sample
     }
 
@@ -204,7 +208,7 @@ erDiagram
         string applicationNumber UK
         ObjectId userId FK
         string schemeCode FK
-        string status "DRAFT..DISBURSED_SIMULATED"
+        string status "DRAFT to DISBURSED_SIMULATED"
         object prefilled
         array attachedDocs
         array mismatches
@@ -216,8 +220,8 @@ erDiagram
     VerificationResult {
         ObjectId _id PK
         ObjectId applicationId FK
-        string source "MOCK_DIGILOCKER | MOCK_UDISE.."
-        string status "PASS | MISMATCH | ERROR"
+        string source "MOCK_DIGILOCKER, MOCK_UDISE"
+        string status "PASS, MISMATCH, or ERROR"
         object details
     }
 
@@ -244,7 +248,7 @@ erDiagram
     KnowledgeDoc {
         ObjectId _id PK
         string title
-        string language "en | hi"
+        string language "en, hi"
         string text
         array tags
         string schemeCode
@@ -253,7 +257,7 @@ erDiagram
     Notification {
         ObjectId _id PK
         ObjectId userId FK
-        string type "STATUS_CHANGE | DEFICIENCY | SANCTION | DEADLINE"
+        string type "STATUS_CHANGE, DEFICIENCY, SANCTION, DEADLINE"
         string title
         string message
         string messageHi
@@ -265,8 +269,8 @@ erDiagram
     AuditLog {
         ObjectId _id PK
         ObjectId actorId FK
-        string action "AUTH_LOGIN | SUBMIT_APPLICATION | OFFICER_DECISION"
-        string entity "User | Document | Application"
+        string action "AUTH_LOGIN, SUBMIT_APPLICATION, OFFICER_DECISION"
+        string entity "User, Document, Application"
         string entityId
         object meta
         Date at

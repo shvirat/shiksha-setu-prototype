@@ -16,22 +16,26 @@ This script provides evaluators and judges with a concise, 5-minute step-by-step
 
 ## 5-Minute Walkthrough Flow
 
-### Minute 1: The Problem & The Unified Student Login
+### Minute 1: The Problem & The Unified Student Access
 1. Open the application at `http://localhost:3000`.
 2. Point out the calm, trustworthy government aesthetic (PART B compliant, zero gradients, typographic bridge glyph wordmark).
 3. Toggle the language switch at the top right from **English** to **हिन्दी** to show native bilingual localization without Latin remnants.
-4. Click the prefill button for **Birsa Munda** (`birsa.munda@example.in`) and click **Sign in**.
-5. Observe the Student Home:
+4. *(Optional Walkthrough)*: Click **"New student? Register here"** to demonstrate the self-service student onboarding form (`/register`) capturing academic, demographic, UDISE+, and APAAR identity fields.
+5. Click the prefill button for **Birsa Munda** (`birsa.munda@example.in`) and click **Sign in**.
+6. Observe the Student Home:
    - Plain summary sentence: *"X applications in progress, Y need your action, Z schemes you may be eligible for."*
    - Expand the application row to see the **5-stage progress Stepper** with square markers (Submitted → Verification → Review → Sanction → Payment).
    - Point out the **Scheme Conflict Warning** (*"Cannot be held together with Post-Matric, sample rule"*).
 
-### Minute 2: Document Wallet & Reusability
-1. Navigate to **Documents** in the navigation bar.
-2. Observe the verified documents in the wallet (`st_certificate`, `income_certificate`, `marksheet`).
-3. Note that certificates are encrypted on disk with **AES-256-GCM**.
-4. Click **View** on any document to test inline decrypted viewing.
-5. Emphasize: *"Tribal students upload documents once and reuse them across all 5 MoTA scholarship portals."*
+### Minute 2: Document Wallet & Verified Student Profile
+1. Navigate to **Documents** in the navigation bar:
+   - Observe the verified documents in the wallet (`st_certificate`, `income_certificate`, `marksheet`).
+   - Note that certificates are encrypted on disk with **AES-256-GCM**.
+   - Click **View** on any document to test inline decrypted viewing.
+   - Emphasize: *"Tribal students upload documents once and reuse them across all 5 MoTA scholarship portals."*
+2. Navigate to **Profile** (`/profile`):
+   - Review live simulated government registry status badges: **DigiLocker** (Caste), **e-District** (Income), **UDISE+** (Enrolment), and **PFMS** (Aadhaar-seeded bank account).
+   - Students can update their academic details directly with immediate audit logging.
 
 ### Minute 3: Smart Verification & Non-Destructive Flagging
 1. Log out and sign in as **Shanti Oraon** (`shanti.oraon@example.in`).
