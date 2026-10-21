@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { X, CheckCircle, XCircle, ArrowRight } from '@phosphor-icons/react';
+import { X, CheckCircle, XCircle } from '@phosphor-icons/react';
 import { Badge } from '../ui/Badge';
 import { Button } from '../ui/Button';
 import { ComparisonTable } from '../ui/ComparisonTable';
@@ -11,8 +11,6 @@ export function OfficerQueue() {
   const [queue, setQueue] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedApp, setSelectedApp] = useState(null);
-  const [detailData, setDetailData] = useState(null);
-  const [detailLoading, setDetailLoading] = useState(false);
 
   // Filters
   const [selectedScheme, setSelectedScheme] = useState('');
@@ -44,24 +42,14 @@ export function OfficerQueue() {
     loadQueue();
   }, [selectedScheme, selectedState, selectedStatus]);
 
-  const openDetailDrawer = async (app) => {
+  const openDetailDrawer = (app) => {
     setSelectedApp(app);
-    setDetailLoading(true);
     setRemarks('');
     setDecisionError('');
-    try {
-      const res = await apiRequest(`/officer/applications/${app._id}`);
-      setDetailData(res.data);
-    } catch (err) {
-      setDecisionError(err.message);
-    } finally {
-      setDetailLoading(false);
-    }
   };
 
   const closeDrawer = () => {
     setSelectedApp(null);
-    setDetailData(null);
   };
 
   const handleDecision = async (decision) => {
@@ -262,134 +250,128 @@ export function OfficerQueue() {
 
               {/* Drawer Content */}
               <div className="p-6 space-y-6">
-                {detailLoading ? (
-                  <p className="text-small text-ink-muted">Loading details...</p>
-                ) : (
-                  <>
-                    {/* Status & Scheme Tag */}
-                    <div className="flex items-center justify-between">
-                      <Badge status={selectedApp.status} />
-                      <span className="font-mono text-caption text-ink-muted">
-                        Scheme: {selectedApp.schemeCode}
+                {/* Status & Scheme Tag */}
+                <div className="flex items-center justify-between">
+                  <Badge status={selectedApp.status} />
+                  <span className="font-mono text-caption text-ink-muted">
+                    Scheme: {selectedApp.schemeCode}
+                  </span>
+                </div>
+
+                {/* Mismatch Comparison Table */}
+                {selectedApp.mismatches?.length > 0 && (
+                  <ComparisonTable mismatches={selectedApp.mismatches} />
+                )}
+
+                {/* Applicant Profile Snapshot */}
+                <div className="border border-line rounded p-4 space-y-3 bg-paper">
+                  <h4 className="text-caption font-semibold text-ink-muted uppercase tracking-wider">
+                    Institutional Enrolment Profile
+                  </h4>
+                  <div className="grid grid-cols-2 gap-2 text-small">
+                    <div>
+                      <span className="text-caption text-ink-muted block">Category:</span>
+                      <span className="font-medium text-ink">{selectedApp.prefilled?.category || 'ST'}</span>
+                    </div>
+                    <div>
+                      <span className="text-caption text-ink-muted block">Declared Income:</span>
+                      <span className="font-medium text-ink font-mono">
+                        ₹{Number(selectedApp.prefilled?.familyIncome || 0).toLocaleString('en-IN')}
                       </span>
                     </div>
-
-                    {/* Mismatch Comparison Table */}
-                    {selectedApp.mismatches?.length > 0 && (
-                      <ComparisonTable mismatches={selectedApp.mismatches} />
-                    )}
-
-                    {/* Applicant Profile Snapshot */}
-                    <div className="border border-line rounded p-4 space-y-3 bg-paper">
-                      <h4 className="text-caption font-semibold text-ink-muted uppercase tracking-wider">
-                        Institutional Enrolment Profile
-                      </h4>
-                      <div className="grid grid-cols-2 gap-2 text-small">
-                        <div>
-                          <span className="text-caption text-ink-muted block">Category:</span>
-                          <span className="font-medium text-ink">{selectedApp.prefilled?.category || 'ST'}</span>
-                        </div>
-                        <div>
-                          <span className="text-caption text-ink-muted block">Declared Income:</span>
-                          <span className="font-medium text-ink font-mono">
-                            ₹{Number(selectedApp.prefilled?.familyIncome || 0).toLocaleString('en-IN')}
-                          </span>
-                        </div>
-                        <div>
-                          <span className="text-caption text-ink-muted block">Institution:</span>
-                          <span className="font-medium text-ink">{selectedApp.prefilled?.institution}</span>
-                        </div>
-                        <div>
-                          <span className="text-caption text-ink-muted block">Course & Year:</span>
-                          <span className="font-medium text-ink">
-                            {selectedApp.prefilled?.course} (Year {selectedApp.prefilled?.year})
-                          </span>
-                        </div>
-                        <div>
-                          <span className="text-caption text-ink-muted block">Bank DBT Ref:</span>
-                          <span className="font-medium text-ink font-mono">
-                            {selectedApp.prefilled?.maskedBankRef}
-                          </span>
-                        </div>
-                        <div>
-                          <span className="text-caption text-ink-muted block">UDISE Registry ID:</span>
-                          <span className="font-medium text-ink font-mono">
-                            {selectedApp.prefilled?.udiseId || 'N/A'}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Attached Documents */}
                     <div>
-                      <h4 className="text-caption font-semibold text-ink-muted uppercase tracking-wider mb-2">
-                        Attached Supporting Documents
-                      </h4>
-                      <div className="space-y-2">
-                        {selectedApp.attachedDocs?.map((doc, idx) => (
-                          <div
-                            key={idx}
-                            className="flex items-center justify-between p-2.5 border border-line rounded bg-surface text-small"
-                          >
-                            <span className="font-medium text-ink">{doc.originalName}</span>
-                            <span className="text-caption font-mono text-ink-muted uppercase">
-                              {doc.docType.replace(/_/g, ' ')}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
+                      <span className="text-caption text-ink-muted block">Institution:</span>
+                      <span className="font-medium text-ink">{selectedApp.prefilled?.institution}</span>
                     </div>
-
-                    {/* Decision Form */}
-                    <div className="border-t border-line pt-4 space-y-3">
-                      <h4 className="text-caption font-semibold text-ink uppercase tracking-wider">
-                        Officer Decision & Remarks
-                      </h4>
-
-                      {decisionError && (
-                        <p className="text-caption text-danger-700 bg-danger-50 p-2 rounded border border-danger-700">
-                          {decisionError}
-                        </p>
-                      )}
-
-                      <div>
-                        <label className="text-small font-medium text-ink block mb-1">
-                          {t('officer.remarksLabel')}{' '}
-                          <span className="text-danger-700">*</span>
-                        </label>
-                        <textarea
-                          rows={3}
-                          value={remarks}
-                          onChange={(e) => setRemarks(e.target.value)}
-                          placeholder={t('officer.remarksPlaceholder')}
-                          className="w-full p-2.5 text-small border border-line-strong rounded text-ink bg-surface focus:border-navy-600"
-                        />
-                      </div>
-
-                      <div className="flex items-center gap-3 pt-2">
-                        <Button
-                          variant="primary"
-                          onClick={() => handleDecision('APPROVE')}
-                          disabled={decisionSubmitting}
-                          className="flex-1"
-                        >
-                          <CheckCircle size={18} className="mr-1.5" />
-                          {decisionSubmitting ? 'Recording...' : t('officer.approve')}
-                        </Button>
-
-                        <Button
-                          variant="danger"
-                          onClick={() => handleDecision('REJECT')}
-                          disabled={decisionSubmitting}
-                          className="flex-1"
-                        >
-                          <XCircle size={18} className="mr-1.5" />
-                          {decisionSubmitting ? 'Recording...' : t('officer.reject')}
-                        </Button>
-                      </div>
+                    <div>
+                      <span className="text-caption text-ink-muted block">Course & Year:</span>
+                      <span className="font-medium text-ink">
+                        {selectedApp.prefilled?.course} (Year {selectedApp.prefilled?.year})
+                      </span>
                     </div>
-                  </>
-                )}
+                    <div>
+                      <span className="text-caption text-ink-muted block">Bank DBT Ref:</span>
+                      <span className="font-medium text-ink font-mono">
+                        {selectedApp.prefilled?.maskedBankRef}
+                      </span>
+                    </div>
+                    <div>
+                      <span className="text-caption text-ink-muted block">UDISE Registry ID:</span>
+                      <span className="font-medium text-ink font-mono">
+                        {selectedApp.prefilled?.udiseId || 'N/A'}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Attached Documents */}
+                <div>
+                  <h4 className="text-caption font-semibold text-ink-muted uppercase tracking-wider mb-2">
+                    Attached Supporting Documents
+                  </h4>
+                  <div className="space-y-2">
+                    {selectedApp.attachedDocs?.map((doc, idx) => (
+                      <div
+                        key={idx}
+                        className="flex items-center justify-between p-2.5 border border-line rounded bg-surface text-small"
+                      >
+                        <span className="font-medium text-ink">{doc.originalName}</span>
+                        <span className="text-caption font-mono text-ink-muted uppercase">
+                          {doc.docType.replace(/_/g, ' ')}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Decision Form */}
+                <div className="border-t border-line pt-4 space-y-3">
+                  <h4 className="text-caption font-semibold text-ink uppercase tracking-wider">
+                    Officer Decision & Remarks
+                  </h4>
+
+                  {decisionError && (
+                    <p className="text-caption text-danger-700 bg-danger-50 p-2 rounded border border-danger-700">
+                      {decisionError}
+                    </p>
+                  )}
+
+                  <div>
+                    <label className="text-small font-medium text-ink block mb-1">
+                      {t('officer.remarksLabel')}{' '}
+                      <span className="text-danger-700">*</span>
+                    </label>
+                    <textarea
+                      rows={3}
+                      value={remarks}
+                      onChange={(e) => setRemarks(e.target.value)}
+                      placeholder={t('officer.remarksPlaceholder')}
+                      className="w-full p-2.5 text-small border border-line-strong rounded text-ink bg-surface focus:border-navy-600"
+                    />
+                  </div>
+
+                  <div className="flex items-center gap-3 pt-2">
+                    <Button
+                      variant="primary"
+                      onClick={() => handleDecision('APPROVE')}
+                      disabled={decisionSubmitting}
+                      className="flex-1"
+                    >
+                      <CheckCircle size={18} className="mr-1.5" />
+                      {decisionSubmitting ? 'Recording...' : t('officer.approve')}
+                    </Button>
+
+                    <Button
+                      variant="danger"
+                      onClick={() => handleDecision('REJECT')}
+                      disabled={decisionSubmitting}
+                      className="flex-1"
+                    >
+                      <XCircle size={18} className="mr-1.5" />
+                      {decisionSubmitting ? 'Recording...' : t('officer.reject')}
+                    </Button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
