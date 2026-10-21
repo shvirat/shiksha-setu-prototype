@@ -10,7 +10,6 @@ const registerSchema = z.object({
   email: z.string().email('Invalid email address'),
   mobile: z.string().min(10, 'Mobile must be at least 10 digits'),
   password: z.string().min(6, 'Password must be at least 6 characters'),
-  role: z.enum(['student', 'officer']).default('student'),
   language: z.enum(['en', 'hi']).default('en'),
   profile: z
     .object({
@@ -31,6 +30,25 @@ const registerSchema = z.object({
     .optional()
 });
 
+const profileUpdateSchema = z
+  .object({
+    fullName: z.string().min(2).optional(),
+    dob: z.string().optional(),
+    gender: z.enum(['male', 'female', 'other']).optional(),
+    category: z.string().optional(),
+    state: z.string().optional(),
+    district: z.string().optional(),
+    familyIncome: z.number().min(0).optional(),
+    institution: z.string().optional(),
+    course: z.string().optional(),
+    year: z.number().min(1).optional(),
+    udiseId: z.string().optional(),
+    apaarId: z.string().optional(),
+    maskedBankRef: z.string().optional()
+  })
+  .strict()
+  .refine((profile) => Object.keys(profile).length > 0, 'At least one profile field must be provided');
+
 const loginSchema = z.object({
   email: z.string().email('Invalid email address'),
   password: z.string().min(1, 'Password is required')
@@ -50,7 +68,7 @@ function generateToken(user) {
 
 async function register(req, res, next) {
   try {
-    const { name, email, mobile, password, role, language, profile } = req.body;
+    const { name, email, mobile, password, language, profile } = req.body;
 
     const existingUser = await User.findOne({ email: email.toLowerCase() });
     if (existingUser) {
@@ -71,7 +89,7 @@ async function register(req, res, next) {
       email: email.toLowerCase(),
       mobile,
       passwordHash,
-      role: role || 'student',
+      role: 'student',
       language: language || 'en'
     });
 
@@ -225,6 +243,7 @@ async function updateProfile(req, res, next) {
 
 module.exports = {
   registerSchema,
+  profileUpdateSchema,
   loginSchema,
   register,
   login,

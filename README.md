@@ -201,10 +201,11 @@ All configuration settings are defined in `.env` (or environment variables) with
 | `PORT` | No | `5000` | Port for the Express REST API backend |
 | `NODE_ENV` | No | `development` | Runtime environment (`development`, `production`) |
 | `MONGODB_URI` | No | `mongodb://localhost:27017/shiksha_setu` | MongoDB connection URI. Automatically falls back to in-memory database if unavailable |
-| `USE_MEMORY_DB` | No | `true` | When `true`, uses embedded in-memory MongoDB for zero-install demo runs |
-| `JWT_SECRET` | Yes | Provided in `.env.example` | Secret string used for signing and verifying JSON Web Tokens (min 32 chars) |
+| `USE_MEMORY_DB` | No | `false` | When `true`, uses embedded in-memory MongoDB; in local development, the server also falls back to it if MongoDB is unreachable |
+| `ALLOW_DEMO_SEED_ENDPOINT` | No | `false` | Set to `true` only for local development to enable the destructive `POST /api/seed` demo endpoint; never enabled in production |
+| `JWT_SECRET` | Yes in production | Development-only fallback | Unique secret of at least 32 characters used for signing and verifying JSON Web Tokens; production startup fails if it is missing or uses the fallback |
 | `JWT_EXPIRES_IN` | No | `7d` | Token expiry duration (e.g., `7d`, `24h`) |
-| `DOC_ENCRYPTION_KEY` | Yes | Provided in `.env.example` | 32-byte hexadecimal key (64 hex characters) for AES-256-GCM document encryption |
+| `DOC_ENCRYPTION_KEY` | Yes in production | Development-only fallback | Unique 32-byte hexadecimal key (64 hex characters) for AES-256-GCM document encryption; production startup fails if it is missing or uses the fallback |
 | `CLIENT_URL` | No | `http://localhost:3000` | Allowed CORS origin for the React frontend client |
 | `LLM_PROVIDER` | No | `none` | AI provider for JAGO assistant (`gemini`, `openai`, or `none` for deterministic rule-based fallback) |
 | `GEMINI_API_KEY` | Conditional | - | API key for Google Gemini (required only if `LLM_PROVIDER=gemini`) |

@@ -6,6 +6,7 @@ const applicationRoutes = require('./applicationRoutes');
 const notificationRoutes = require('./notificationRoutes');
 const officerRoutes = require('./officerRoutes');
 const jagoRoutes = require('./jagoRoutes');
+const config = require('../config/env');
 
 const router = express.Router();
 
@@ -35,7 +36,14 @@ router.get('/health', async (req, res) => {
   });
 });
 
-router.all('/seed', async (req, res) => {
+router.post('/seed', async (req, res, next) => {
+  if (!config.allowDemoSeedEndpoint) {
+    return res.status(404).json({
+      success: false,
+      error: { code: 'NOT_FOUND', message: 'Cannot POST /seed' }
+    });
+  }
+
   try {
     const { seedDatabase } = require('../../seed/seed');
     console.log('[API /seed] Manually triggered database seed...');
@@ -47,14 +55,7 @@ router.all('/seed', async (req, res) => {
     });
   } catch (err) {
     console.error('[API /seed] Manual seeding failed:', err);
-    res.status(500).json({
-      success: false,
-      error: {
-        code: 'SEED_FAILED',
-        message: err.message,
-        details: err.stack
-      }
-    });
+    next(err);
   }
 });
 

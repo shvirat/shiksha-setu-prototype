@@ -10,7 +10,7 @@ This document describes all endpoints in the Shiksha Setu REST API, including he
 ## 1. Authentication & Profile Endpoints
 
 ### `POST /auth/register`
-Registers a new student or officer account and automatically provisions the student profile.
+Registers a student account and automatically provisions the student profile. Public registration always creates a student account; officer accounts are provisioned through the demo seed process.
 - **Access:** Public
 - **Request Body:**
 ```json
@@ -19,7 +19,6 @@ Registers a new student or officer account and automatically provisions the stud
   "email": "birsa.munda@example.in",
   "mobile": "9876543210",
   "password": "Student@123",
-  "role": "student",
   "language": "en",
   "profile": {
     "fullName": "Birsa Munda",
@@ -75,7 +74,7 @@ Retrieves current authenticated session user and profile.
 ### `PUT /auth/profile`
 Updates the authenticated student's profile details (institution, course, year, state, district, income, bank reference, etc.).
 - **Access:** Student only
-- **Request Body:** Partial or complete `StudentProfile` fields (e.g. `{ "institution": "Birsa Institute of Tech", "year": 3, "familyIncome": 160000 }`)
+- **Request Body:** One or more editable profile fields (e.g. `{ "institution": "Birsa Institute of Tech", "year": 3, "familyIncome": 160000 }`). Fields outside the profile allowlist, including `userId`, are rejected.
 - **Response `200 OK`:**
 ```json
 {
