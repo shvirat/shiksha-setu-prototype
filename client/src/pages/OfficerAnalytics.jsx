@@ -92,13 +92,13 @@ export function OfficerAnalytics() {
       <KeyFigures items={keyFigureItems} />
 
       {/* Two B8 Compliant Charts (navy-600, square-topped, no gradients, light grid) */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6 lg:gap-8">
         {/* Chart 1: Applications by Status */}
-        <div className="border border-line rounded bg-surface p-5 space-y-3">
+        <div className="border border-line rounded bg-surface p-4 sm:p-5 space-y-3">
           <h2 className="text-small font-semibold text-ink uppercase tracking-wider">
             Applications by Workflow Stage
           </h2>
-          <div className="h-64 w-full">
+          <div className="h-60 sm:h-64 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={statusChartData} margin={{ top: 10, right: 10, left: -20, bottom: 25 }}>
                 <CartesianGrid stroke="#DAD5CA" strokeDasharray="0" vertical={false} />
@@ -133,17 +133,17 @@ export function OfficerAnalytics() {
         </div>
 
         {/* Chart 2: Applications by Scheme */}
-        <div className="border border-line rounded bg-surface p-5 space-y-3">
+        <div className="border border-line rounded bg-surface p-4 sm:p-5 space-y-3">
           <h2 className="text-small font-semibold text-ink uppercase tracking-wider">
             Applications by MoTA Scheme
           </h2>
-          <div className="h-64 w-full">
+          <div className="h-60 sm:h-64 w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={schemeChartData} margin={{ top: 10, right: 10, left: -20, bottom: 10 }}>
+              <BarChart data={schemeChartData} margin={{ top: 10, right: 10, left: -20, bottom: 15 }}>
                 <CartesianGrid stroke="#DAD5CA" strokeDasharray="0" vertical={false} />
                 <XAxis
                   dataKey="scheme"
-                  tick={{ fill: '#4B5666', fontSize: 12, fontFamily: 'IBM Plex Sans' }}
+                  tick={{ fill: '#4B5666', fontSize: 11, fontFamily: 'IBM Plex Sans' }}
                   axisLine={{ stroke: '#DAD5CA' }}
                   tickLine={false}
                 />
@@ -170,8 +170,37 @@ export function OfficerAnalytics() {
         </div>
       </div>
 
-      {/* Status Breakdown Table */}
-      <div className="border border-line rounded bg-surface overflow-x-auto">
+      {/* Mobile Status Registry Cards (< md) */}
+      <div className="md:hidden space-y-3">
+        <div className="p-3 border-b border-line bg-surface rounded-t">
+          <h2 className="text-small font-semibold text-ink uppercase tracking-wider">
+            Comprehensive Status Registry
+          </h2>
+        </div>
+        {Object.keys(data.statusBreakdown || {}).map((status) => (
+          <div key={status} className="border border-line rounded bg-surface p-4 space-y-2">
+            <div className="flex items-center justify-between gap-2">
+              <span className="font-mono text-caption text-ink font-semibold">{status}</span>
+              <Badge status={status} />
+            </div>
+            <div className="flex items-center justify-between text-small pt-1">
+              <span className="text-ink-muted">Application Count:</span>
+              <span className="font-mono font-bold text-ink">{data.statusBreakdown[status]}</span>
+            </div>
+            <div className="text-caption text-ink-muted border-t border-line pt-2">
+              <span className="font-medium text-ink">Action Owner: </span>
+              {['FLAGGED', 'UNDER_REVIEW'].includes(status)
+                ? 'Nodal Officer Manual Review'
+                : ['VERIFIED', 'APPROVED_FOR_SANCTION'].includes(status)
+                ? 'Ministry Finance & Sanction Division'
+                : 'Automated Pipeline / Student Action'}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Desktop Status Registry Table (hidden on mobile < md) */}
+      <div className="hidden md:block border border-line rounded bg-surface overflow-x-auto">
         <div className="p-4 border-b border-line">
           <h2 className="text-small font-semibold text-ink uppercase tracking-wider">
             Comprehensive Status Registry

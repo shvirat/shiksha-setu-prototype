@@ -36,9 +36,16 @@ export function TopBar({ onToggleJago }) {
   return (
     <header className="h-14 bg-surface border-b border-line px-4 sm:px-6 flex items-center justify-between z-30 sticky top-0">
       {/* Brand */}
-      <Link to="/" className="focus-visible:outline-navy-600">
-        <BrandMark />
-      </Link>
+      <div className="flex items-center gap-2">
+        <Link to="/" className="focus-visible:outline-navy-600">
+          <BrandMark />
+        </Link>
+        {user?.role === 'officer' && (
+          <span className="px-1.5 py-0.5 text-[10px] sm:text-caption font-mono font-bold rounded bg-navy-100 text-navy-800 border border-navy-300">
+            Officer
+          </span>
+        )}
+      </div>
 
       {/* Right Controls */}
       <div className="flex items-center gap-3 sm:gap-4">
@@ -54,15 +61,17 @@ export function TopBar({ onToggleJago }) {
 
         {user && (
           <>
-            {/* Ask JAGO Drawer Trigger (Desktop) */}
-            <button
-              type="button"
-              onClick={onToggleJago}
-              className="hidden sm:inline-flex items-center gap-1.5 h-8 px-3 rounded border border-navy-700 text-navy-700 hover:bg-navy-50 text-small font-medium transition-colors focus-visible:outline-navy-600"
-            >
-              <ChatCircleText size={18} />
-              <span>{t('nav.askJago')}</span>
-            </button>
+            {/* Ask JAGO Drawer Trigger (Desktop, Student only) */}
+            {user.role === 'student' && onToggleJago && (
+              <button
+                type="button"
+                onClick={onToggleJago}
+                className="hidden sm:inline-flex items-center gap-1.5 h-8 px-3 rounded border border-navy-700 text-navy-700 hover:bg-navy-50 text-small font-medium transition-colors focus-visible:outline-navy-600"
+              >
+                <ChatCircleText size={18} />
+                <span>{t('nav.askJago')}</span>
+              </button>
+            )}
 
             {/* Notifications Bell with Numeric Badge (Never a dot) */}
             <Link

@@ -90,15 +90,15 @@ export function OfficerQueue() {
       </div>
 
       {/* Filter Bar */}
-      <div className="flex flex-wrap items-center gap-3 bg-surface p-4 border border-line rounded">
-        <div>
+      <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3 bg-surface p-3.5 sm:p-4 border border-line rounded">
+        <div className="w-full sm:w-auto">
           <label className="text-caption font-semibold text-ink-muted block mb-1">
             Filter Scheme:
           </label>
           <select
             value={selectedScheme}
             onChange={(e) => setSelectedScheme(e.target.value)}
-            className="h-10 px-3 text-small rounded border border-line-strong bg-surface text-ink focus-visible:outline-navy-600"
+            className="w-full sm:w-auto h-10 px-3 text-small rounded border border-line-strong bg-surface text-ink focus-visible:outline-navy-600"
           >
             <option value="">All Schemes</option>
             <option value="MOTA-PRE-MATRIC">Pre-Matric ST</option>
@@ -109,14 +109,14 @@ export function OfficerQueue() {
           </select>
         </div>
 
-        <div>
+        <div className="w-full sm:w-auto">
           <label className="text-caption font-semibold text-ink-muted block mb-1">
             Filter State:
           </label>
           <select
             value={selectedState}
             onChange={(e) => setSelectedState(e.target.value)}
-            className="h-10 px-3 text-small rounded border border-line-strong bg-surface text-ink focus-visible:outline-navy-600"
+            className="w-full sm:w-auto h-10 px-3 text-small rounded border border-line-strong bg-surface text-ink focus-visible:outline-navy-600"
           >
             <option value="">All States</option>
             <option value="Jharkhand">Jharkhand</option>
@@ -127,14 +127,14 @@ export function OfficerQueue() {
           </select>
         </div>
 
-        <div>
+        <div className="w-full sm:w-auto">
           <label className="text-caption font-semibold text-ink-muted block mb-1">
             Filter Status:
           </label>
           <select
             value={selectedStatus}
             onChange={(e) => setSelectedStatus(e.target.value)}
-            className="h-10 px-3 text-small rounded border border-line-strong bg-surface text-ink focus-visible:outline-navy-600"
+            className="w-full sm:w-auto h-10 px-3 text-small rounded border border-line-strong bg-surface text-ink focus-visible:outline-navy-600"
           >
             <option value="">All Queue Statuses</option>
             <option value="FLAGGED">FLAGGED (Needs review)</option>
@@ -143,15 +143,71 @@ export function OfficerQueue() {
           </select>
         </div>
 
-        <div className="ml-auto self-end">
+        <div className="sm:ml-auto self-start sm:self-end pt-1 sm:pt-0">
           <span className="text-small font-medium text-ink-muted">
             Showing {queue.length} applications
           </span>
         </div>
       </div>
 
-      {/* Dense Table (44px row height per B6 spec) */}
-      <div className="border border-line rounded bg-surface overflow-x-auto">
+      {/* Mobile Card List (< md) */}
+      <div className="md:hidden space-y-3">
+        {loading ? (
+          <div className="p-8 text-center text-small text-ink-muted border border-line rounded bg-surface">
+            Loading verification queue...
+          </div>
+        ) : queue.length === 0 ? (
+          <div className="p-8 text-center text-small text-ink-muted border border-line rounded bg-surface">
+            No applications currently awaiting nodal officer review.
+          </div>
+        ) : (
+          queue.map((app) => (
+            <div
+              key={app._id}
+              onClick={() => openDetailDrawer(app)}
+              className="border border-line rounded bg-surface p-4 space-y-2.5 cursor-pointer active:bg-paper transition-colors shadow-sm"
+            >
+              <div className="flex items-center justify-between gap-2">
+                <span className="font-mono text-small font-semibold text-ink">
+                  #{app.applicationNumber}
+                </span>
+                <Badge status={app.status} />
+              </div>
+
+              <div>
+                <div className="font-semibold text-ink text-body">
+                  {app.prefilled?.fullName || app.userId?.name}
+                </div>
+                <div className="text-caption font-mono text-navy-700 mt-0.5">
+                  {app.schemeCode}
+                </div>
+                <div className="text-caption text-ink-muted mt-0.5">
+                  {app.prefilled?.state}, {app.prefilled?.district}
+                </div>
+              </div>
+
+              {app.mismatches?.length > 0 && (
+                <div className="p-2 rounded bg-warning-50 border border-warning-200 text-caption">
+                  <span className="font-semibold text-saffron-800 block">Flagged differences:</span>
+                  <span className="text-saffron-700 font-medium">
+                    {app.mismatches.map((m) => m.field).join(', ')}
+                  </span>
+                </div>
+              )}
+
+              <div className="pt-2 border-t border-line flex items-center justify-between text-caption">
+                <span className="text-ink-muted">Tap to review application</span>
+                <span className="text-navy-700 font-semibold flex items-center">
+                  Review &rarr;
+                </span>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+
+      {/* Desktop / Tablet Dense Table (hidden on mobile < md) */}
+      <div className="hidden md:block border border-line rounded bg-surface overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead className="bg-paper sticky top-0 border-b border-line text-caption font-semibold text-ink-muted uppercase tracking-wider">
             <tr>
@@ -225,33 +281,33 @@ export function OfficerQueue() {
 
       {/* Right-Side Review Detail Drawer */}
       {selectedApp && (
-        <div className="fixed inset-0 bg-ink/20 z-50 flex justify-end">
-          <div className="w-full max-w-[580px] bg-surface h-full shadow-overlay border-l border-line flex flex-col justify-between overflow-y-auto">
+        <div className="fixed inset-0 bg-ink/30 z-50 flex justify-end">
+          <div className="w-full sm:max-w-[580px] bg-surface h-full shadow-overlay border-l border-line flex flex-col justify-between overflow-y-auto">
             {/* Drawer Header */}
             <div>
-              <div className="p-5 border-b border-line flex items-center justify-between sticky top-0 bg-surface z-10">
-                <div>
-                  <span className="text-caption font-mono text-ink-muted">
+              <div className="p-4 sm:p-5 border-b border-line flex items-center justify-between sticky top-0 bg-surface z-10">
+                <div className="min-w-0 pr-2">
+                  <span className="text-caption font-mono text-ink-muted block">
                     #{selectedApp.applicationNumber}
                   </span>
-                  <h3 className="font-serif text-h3 font-semibold text-ink">
+                  <h3 className="font-serif text-h3 font-semibold text-ink truncate">
                     {selectedApp.prefilled?.fullName}
                   </h3>
                 </div>
                 <button
                   type="button"
                   onClick={closeDrawer}
-                  className="p-1 text-ink-muted hover:text-ink"
+                  className="p-1.5 text-ink-muted hover:text-ink rounded focus:outline-none"
                   aria-label="Close drawer"
                 >
-                  <X size={20} />
+                  <X size={22} />
                 </button>
               </div>
 
               {/* Drawer Content */}
-              <div className="p-6 space-y-6">
+              <div className="p-4 sm:p-6 space-y-5 sm:space-y-6">
                 {/* Status & Scheme Tag */}
-                <div className="flex items-center justify-between">
+                <div className="flex flex-wrap items-center justify-between gap-2">
                   <Badge status={selectedApp.status} />
                   <span className="font-mono text-caption text-ink-muted">
                     Scheme: {selectedApp.schemeCode}
@@ -268,7 +324,7 @@ export function OfficerQueue() {
                   <h4 className="text-caption font-semibold text-ink-muted uppercase tracking-wider">
                     Institutional Enrolment Profile
                   </h4>
-                  <div className="grid grid-cols-2 gap-2 text-small">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-small">
                     <div>
                       <span className="text-caption text-ink-muted block">Category:</span>
                       <span className="font-medium text-ink">{selectedApp.prefilled?.category || 'ST'}</span>
@@ -315,8 +371,8 @@ export function OfficerQueue() {
                         key={idx}
                         className="flex items-center justify-between p-2.5 border border-line rounded bg-surface text-small"
                       >
-                        <span className="font-medium text-ink">{doc.originalName}</span>
-                        <span className="text-caption font-mono text-ink-muted uppercase">
+                        <span className="font-medium text-ink truncate max-w-[200px]">{doc.originalName}</span>
+                        <span className="text-caption font-mono text-ink-muted uppercase ml-2 flex-shrink-0">
                           {doc.docType.replace(/_/g, ' ')}
                         </span>
                       </div>
@@ -350,12 +406,12 @@ export function OfficerQueue() {
                     />
                   </div>
 
-                  <div className="flex items-center gap-3 pt-2">
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3 pt-2">
                     <Button
                       variant="primary"
                       onClick={() => handleDecision('APPROVE')}
                       disabled={decisionSubmitting}
-                      className="flex-1"
+                      className="flex-1 justify-center"
                     >
                       <CheckCircle size={18} className="mr-1.5" />
                       {decisionSubmitting ? 'Recording...' : t('officer.approve')}
@@ -365,7 +421,7 @@ export function OfficerQueue() {
                       variant="danger"
                       onClick={() => handleDecision('REJECT')}
                       disabled={decisionSubmitting}
-                      className="flex-1"
+                      className="flex-1 justify-center"
                     >
                       <XCircle size={18} className="mr-1.5" />
                       {decisionSubmitting ? 'Recording...' : t('officer.reject')}

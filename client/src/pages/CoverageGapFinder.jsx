@@ -96,7 +96,7 @@ export function CoverageGapFinder() {
         </div>
 
         <div>
-          <Button variant="secondary" onClick={handleExportCsv}>
+          <Button variant="secondary" onClick={handleExportCsv} className="w-full sm:w-auto justify-center">
             <DownloadSimple size={18} className="mr-1.5" />
             {t('gaps.exportCsv')}
           </Button>
@@ -107,9 +107,9 @@ export function CoverageGapFinder() {
       <KeyFigures items={keyFigureItems} />
 
       {/* Main Content Layout: Filters on left, Chart + Table on right */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 lg:gap-8 items-start">
         {/* Left Column (3/12): Filters */}
-        <div className="lg:col-span-3 border border-line rounded bg-surface p-5 space-y-4">
+        <div className="lg:col-span-3 border border-line rounded bg-surface p-4 sm:p-5 space-y-4">
           <h2 className="text-small font-semibold text-ink uppercase tracking-wider border-b border-line pb-2">
             Regional Filters
           </h2>
@@ -166,19 +166,22 @@ export function CoverageGapFinder() {
         {/* Right Column (9/12): B8 Compliant Bar Chart and Gap Table */}
         <div className="lg:col-span-9 space-y-6">
           {/* Chart Section (Strict B8 rules: navy-600, square-topped, light grid, no gradient, no 3D) */}
-          <div className="border border-line rounded bg-surface p-5">
+          <div className="border border-line rounded bg-surface p-4 sm:p-5">
             <h3 className="text-small font-semibold text-ink uppercase tracking-wider mb-2">
               Unreached Eligible ST Students by State
             </h3>
             <div className="h-64 w-full pt-2">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 20 }}>
+                <BarChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 25 }}>
                   <CartesianGrid stroke="#DAD5CA" strokeDasharray="0" vertical={false} />
                   <XAxis
                     dataKey="state"
-                    tick={{ fill: '#4B5666', fontSize: 12, fontFamily: 'IBM Plex Sans' }}
+                    tick={{ fill: '#4B5666', fontSize: 11, fontFamily: 'IBM Plex Sans' }}
                     axisLine={{ stroke: '#DAD5CA' }}
                     tickLine={false}
+                    interval={0}
+                    angle={-15}
+                    textAnchor="end"
                   />
                   <YAxis
                     tick={{ fill: '#4B5666', fontSize: 12, fontFamily: 'IBM Plex Sans' }}
@@ -204,8 +207,39 @@ export function CoverageGapFinder() {
             </p>
           </div>
 
-          {/* Results Table */}
-          <div className="border border-line rounded bg-surface overflow-x-auto">
+          {/* Mobile Cards for Unreached Students (< md) */}
+          <div className="md:hidden space-y-3">
+            <div className="p-3 border-b border-line bg-surface rounded-t">
+              <span className="text-caption font-semibold text-ink-muted uppercase tracking-wider">
+                Unreached Student Directory ({data.gaps?.length || 0})
+              </span>
+            </div>
+            {(data.gaps || []).slice(0, 15).map((student, idx) => (
+              <div key={idx} className="border border-line rounded bg-surface p-4 space-y-2 text-small">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="font-semibold text-ink text-body">{student.studentName}</span>
+                  <span className="px-2 py-0.5 text-[11px] font-medium rounded border border-warning-700 bg-warning-50 text-warning-700">
+                    Unreached
+                  </span>
+                </div>
+                <div className="text-caption font-mono text-ink-muted">
+                  UDISE: {student.udiseId}
+                </div>
+                <div className="text-caption text-ink">
+                  <span className="text-ink-muted">School/College:</span> {student.institution}
+                </div>
+                <div className="text-caption text-ink-muted">
+                  {student.state}, {student.district} • {student.level}
+                </div>
+                <div className="pt-2 border-t border-line text-caption font-mono text-navy-700 font-semibold">
+                  Suggested Scheme: {student.suggestedScheme}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop Results Table (hidden on mobile < md) */}
+          <div className="hidden md:block border border-line rounded bg-surface overflow-x-auto">
             <div className="p-4 border-b border-line flex items-center justify-between">
               <span className="text-caption font-semibold text-ink-muted uppercase tracking-wider">
                 Unreached Student Directory ({data.gaps?.length || 0})

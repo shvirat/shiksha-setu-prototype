@@ -58,8 +58,8 @@ export function App() {
         <div className="flex flex-1 min-h-screen">
           <OfficerSidebar />
           <div className="flex-1 flex flex-col min-w-0">
-            <TopBar onToggleJago={() => setJagoOpen((prev) => !prev)} />
-            <main className="flex-1 p-6 lg:p-8 overflow-y-auto">
+            <TopBar />
+            <main className="flex-1 p-3.5 sm:p-6 lg:p-8 pb-20 md:pb-8 overflow-y-auto">
               <Routes>
                 <Route
                   path="/officer/queue"
@@ -88,7 +88,7 @@ export function App() {
                 <Route path="*" element={<Navigate to="/officer/queue" replace />} />
               </Routes>
             </main>
-            <footer className="py-3 px-6 border-t border-line text-caption text-ink-muted bg-surface flex items-center justify-between">
+            <footer className="py-3 px-4 sm:px-6 border-t border-line text-caption text-ink-muted bg-surface flex flex-col sm:flex-row items-center justify-between gap-1 mb-14 md:mb-0 text-center sm:text-left">
               <span>Demo uses simulated government data.</span>
               <span>Ministry of Tribal Affairs | bytecodex</span>
             </footer>
