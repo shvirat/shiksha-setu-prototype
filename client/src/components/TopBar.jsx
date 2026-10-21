@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Bell, ChatCircleText, SignOut } from '@phosphor-icons/react';
+import { Bell, ChatCircleText, SignOut, User } from '@phosphor-icons/react';
 import { BrandMark } from '../ui/BrandMark';
 import { useAuth } from '../context/AuthContext';
 import { apiRequest } from '../services/api';
@@ -77,6 +77,17 @@ export function TopBar({ onToggleJago }) {
                 </span>
               )}
             </Link>
+
+            {/* User Profile (Student) */}
+            {user.role === 'student' && (
+              <Link
+                to="/profile"
+                title={t('nav.profile')}
+                className="p-1.5 text-ink-muted hover:text-navy-700 focus-visible:outline-navy-600"
+              >
+                <User size={20} />
+              </Link>
+            )}
 
             {/* Logout */}
             <button

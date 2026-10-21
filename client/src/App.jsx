@@ -13,6 +13,7 @@ import { SchemesDirectory } from './pages/SchemesDirectory';
 import { SchemeApply } from './pages/SchemeApply';
 import { DocumentWallet } from './pages/DocumentWallet';
 import { NotificationsPage } from './pages/NotificationsPage';
+import { Profile } from './pages/Profile';
 
 // Officer Pages
 import { OfficerQueue } from './pages/OfficerQueue';
@@ -20,6 +21,7 @@ import { CoverageGapFinder } from './pages/CoverageGapFinder';
 import { OfficerAnalytics } from './pages/OfficerAnalytics';
 
 import { Login } from './pages/Login';
+import { Register } from './pages/Register';
 
 function ProtectedRoute({ children, allowedRole }) {
   const { user, loading } = useAuth();
@@ -45,6 +47,7 @@ export function App() {
   const location = useLocation();
 
   const isOfficer = user?.role === 'officer';
+  const isAuthPage = ['/login', '/register'].includes(location.pathname);
 
   return (
     <div className="min-h-screen bg-paper text-ink flex flex-col font-sans">
@@ -94,7 +97,7 @@ export function App() {
       ) : (
         /* STUDENT & PUBLIC LAYOUT */
         <div className="flex-1 flex flex-col">
-          {location.pathname !== '/login' && (
+          {!isAuthPage && (
             <>
               <TopBar onToggleJago={() => setJagoOpen((prev) => !prev)} />
               {user && <StudentNav />}
@@ -104,6 +107,7 @@ export function App() {
           <main className="flex-1">
             <Routes>
               <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
               <Route
                 path="/"
                 element={
@@ -137,6 +141,14 @@ export function App() {
                 }
               />
               <Route
+                path="/profile"
+                element={
+                  <ProtectedRoute allowedRole="student">
+                    <Profile />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
                 path="/notifications"
                 element={
                   <ProtectedRoute allowedRole="student">
@@ -158,7 +170,7 @@ export function App() {
             </Routes>
           </main>
 
-          {location.pathname !== '/login' && (
+          {!isAuthPage && (
             <footer className="py-4 px-6 border-t border-line text-caption text-ink-muted bg-surface text-center mb-14 sm:mb-0">
               Demo uses simulated government data. Ministry of Tribal Affairs Hackathon Prototype by Team "bytecodex".
             </footer>

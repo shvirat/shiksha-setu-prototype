@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { BrandMark } from '../ui/BrandMark';
 import { Button } from '../ui/Button';
@@ -139,6 +139,15 @@ export function Login() {
               >
                 {submitting ? 'Authenticating...' : t('auth.loginButton')}
               </Button>
+            </div>
+
+            <div className="text-center pt-2">
+              <Link
+                to="/register"
+                className="text-small text-navy-700 hover:text-navy-900 font-medium hover:underline focus-visible:outline-navy-600"
+              >
+                {t('auth.noAccount')}
+              </Link>
             </div>
           </form>
 

@@ -51,6 +51,15 @@ export function AuthProvider({ children }) {
     return res.data.user;
   };
 
+  const updateProfile = async (profileData) => {
+    const res = await apiRequest('/auth/profile', {
+      method: 'PUT',
+      body: JSON.stringify(profileData)
+    });
+    setProfile(res.data.profile);
+    return res.data.profile;
+  };
+
   const logout = () => {
     setAuthToken(null);
     setUser(null);
@@ -66,7 +75,7 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, profile, loading, login, register, logout, refreshUser }}>
+    <AuthContext.Provider value={{ user, profile, loading, login, register, updateProfile, logout, refreshUser }}>
       {children}
     </AuthContext.Provider>
   );

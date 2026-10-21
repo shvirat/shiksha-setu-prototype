@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { House, ListDashes, Folder, ChatCircleText } from '@phosphor-icons/react';
+import { House, ListDashes, Folder, ChatCircleText, User } from '@phosphor-icons/react';
 
 export function StudentNav({ onOpenJagoMobile }) {
   const { t } = useTranslation();
@@ -10,6 +10,7 @@ export function StudentNav({ onOpenJagoMobile }) {
     { to: '/', label: t('nav.home'), icon: House },
     { to: '/schemes', label: t('nav.schemes'), icon: ListDashes },
     { to: '/wallet', label: t('nav.documents'), icon: Folder },
+    { to: '/profile', label: t('nav.profile'), icon: User },
     { to: '/jago', label: t('nav.askJago'), icon: ChatCircleText }
   ];
 
